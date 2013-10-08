@@ -1,0 +1,63 @@
+2013/10/08 10:35:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "media/images/activemenubg.gif".' in /var/www/nbi_cms/yii/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/nbi_cms/yii/web/CWebApplication.php(141): CWebApplication->runController('media/images/ac...')
+#1 /var/www/nbi_cms/yii/base/CApplication.php(169): CWebApplication->processRequest()
+#2 /var/www/nbi_cms/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/nbi_cms/media/images/activemenubg.gif
+HTTP_REFERER=http://localhost/nbi_cms/media/admin/style3.css
+---
+2013/10/08 10:35:44 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "media/javascripts/jquery.js".' in /var/www/nbi_cms/yii/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/nbi_cms/yii/web/CWebApplication.php(141): CWebApplication->runController('media/javascrip...')
+#1 /var/www/nbi_cms/yii/base/CApplication.php(169): CWebApplication->processRequest()
+#2 /var/www/nbi_cms/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/nbi_cms/media/javascripts/jquery.js
+HTTP_REFERER=http://localhost/nbi_cms/admin/ListPages
+---
+2013/10/08 10:35:45 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "media/images/nav_li_bg.gif".' in /var/www/nbi_cms/yii/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/nbi_cms/yii/web/CWebApplication.php(141): CWebApplication->runController('media/images/na...')
+#1 /var/www/nbi_cms/yii/base/CApplication.php(169): CWebApplication->processRequest()
+#2 /var/www/nbi_cms/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/nbi_cms/media/images/nav_li_bg.gif
+HTTP_REFERER=http://localhost/nbi_cms/media/admin/style3.css
+---
+2013/10/08 10:35:48 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "media/javascripts/jquery.js".' in /var/www/nbi_cms/yii/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/nbi_cms/yii/web/CWebApplication.php(141): CWebApplication->runController('media/javascrip...')
+#1 /var/www/nbi_cms/yii/base/CApplication.php(169): CWebApplication->processRequest()
+#2 /var/www/nbi_cms/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/nbi_cms/media/javascripts/jquery.js
+HTTP_REFERER=http://localhost/nbi_cms/admin/ListPages
+---
+2013/10/08 10:35:48 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "media/images/nav_li_bg.gif".' in /var/www/nbi_cms/yii/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/nbi_cms/yii/web/CWebApplication.php(141): CWebApplication->runController('media/images/na...')
+#1 /var/www/nbi_cms/yii/base/CApplication.php(169): CWebApplication->processRequest()
+#2 /var/www/nbi_cms/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/nbi_cms/media/images/nav_li_bg.gif
+HTTP_REFERER=http://localhost/nbi_cms/media/admin/style3.css
+---
+2013/10/08 10:35:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "media/javascripts/jquery.js".' in /var/www/nbi_cms/yii/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/nbi_cms/yii/web/CWebApplication.php(141): CWebApplication->runController('media/javascrip...')
+#1 /var/www/nbi_cms/yii/base/CApplication.php(169): CWebApplication->processRequest()
+#2 /var/www/nbi_cms/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/nbi_cms/media/javascripts/jquery.js
+HTTP_REFERER=http://localhost/nbi_cms/admin/ListPages
+---
+2013/10/08 10:35:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "media/images/nav_li_bg.gif".' in /var/www/nbi_cms/yii/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/nbi_cms/yii/web/CWebApplication.php(141): CWebApplication->runController('media/images/na...')
+#1 /var/www/nbi_cms/yii/base/CApplication.php(169): CWebApplication->processRequest()
+#2 /var/www/nbi_cms/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/nbi_cms/media/images/nav_li_bg.gif
+HTTP_REFERER=http://localhost/nbi_cms/media/admin/style3.css
+---
