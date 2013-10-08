@@ -51,7 +51,7 @@ return array(
 			),
 		),
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=db_nbi',
+			'connectionString' => 'mysql:host=localhost;dbname=nbi',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => '',
