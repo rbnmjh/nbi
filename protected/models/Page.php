@@ -89,4 +89,19 @@ class Page extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+	/**
+ * Behaviors for this model
+ */
+public function behaviors(){
+  return array(
+    'sluggable' => array(
+      'class'=>'ext.behaviors.SluggableBehavior.SluggableBehavior',
+      'columns' => array('page_title'),
+      'unique' => true,
+      'update' => true,
+    ),
+  );
+}
+
 }

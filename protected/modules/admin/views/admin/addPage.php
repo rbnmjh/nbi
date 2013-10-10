@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	/*tinyMCE.init({
+	tinyMCE.init({
 		// General options
 		mode : "exact",
           elements : "Page_content",
@@ -24,7 +24,7 @@
 		external_link_list_url : "lists/link_list.js",
 		external_image_list_url : "lists/image_list.js",
 		media_external_list_url : "lists/media_list.js"
-  });*/
+  });
 </script> 
 <div class="main_content"> 
    <?php $this->renderPartial('//blocks/admin_menu'); ?>

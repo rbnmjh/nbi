@@ -39,6 +39,19 @@
                         <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListGallery">List Gallery</a></span></li>
                      </ul>
                   </li>
+
+                   <li><span class="top"><a href="#">Album</a></span>
+                     <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 60px;">
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddAlbum">Add Album</a></span></li>
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListAlbum">List Album</a></span></li>
+                     </ul>
+                  </li>
+                   <li><span class="top"><a href="#">Publication</a></span>
+                     <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 60px;">
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddPub">Add Publication</a></span></li>
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListPub">List Publication</a></span></li>
+                     </ul>
+                  </li>
                   <li><span class="top"><a href="#">Pages</a></span>
                      <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 60px;">
                         <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddPage">Add Pages</a></span></li>

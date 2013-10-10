@@ -12,8 +12,11 @@
 	<div class="page_wrap">
 		<nav id="nav">
 			<ul>
-				<li><a href="index.html" title="Home" class="active">Home</a></li>
-				<li><a href="#" title="About">About</a></li>
+				<?php $home_url =Yii::app()->baseUrl;
+					  $about_url=Yii::app()->baseUrl.'page/pages/about-us';
+				 ?>
+				<li><a href="<?php echo $home_url;?>" title="Home" class="active">Home</a></li>				
+				<li> <a href="<?php echo $about_url;?>" title="About">About</a></li>
 				<li><a href="#" title="Activities">Activites</a></li>
 				<li><a href="#" title="Services">Services</a></li>
 				<li><a href="#" title="Partner">Partner</a></li>

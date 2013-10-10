@@ -39,6 +39,7 @@ class Publication extends CActiveRecord
 			array('name', 'required'),
 			array('name', 'length', 'max'=>255),
 			array('files', 'length', 'max'=>45),
+			array('files', 'file', 'types'=>'docx, doc, pdf'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, files', 'safe', 'on'=>'search'),

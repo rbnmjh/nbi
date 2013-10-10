@@ -1,19 +1,4 @@
-<?php
-/* @var $this SiteController */
-
-/*$this->pageTitle=Yii::app()->name . ' - About';
-$this->breadcrumbs=array(
-	'About',
-);
-?>
-
-<?php print_r($page) ;?>
-<h1>About</h1>
-
-<p>This is a "static" page. You may change the content of this page
-by updating the file <code><?php echo __FILE__; ?></code>.</p>
-*/
-$this->pageTitle = Yii::app()->name;?><?php //print_r($page) ; die();?>
+<?php $this->pageTitle = Yii::app()->name;?><?php //print_r($page) ; die();?>
 <div class="slider">
 	<?php //$this->renderPartial('//blocks/slider'); ?>
 </div><!-- end slider -->
@@ -29,5 +14,3 @@ $this->pageTitle = Yii::app()->name;?><?php //print_r($page) ; die();?>
 		</div><!-- end left content -->
 	</div>
 </div><!-- end main_content -->
-
-

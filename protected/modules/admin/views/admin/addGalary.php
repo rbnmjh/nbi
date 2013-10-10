@@ -34,8 +34,17 @@
                            <table class="adminform">
                               <tbody>
                                  <tr>
-                                    <th colspan="2">Edit contact information:</th>
+                                    <th colspan="2">Add Gallery information:</th>
                                  </tr>
+                                  <tr>
+                                    <td><label for="#">Album<span>*</span></label></td>
+                                    <td>
+                                       <?php
+                                          echo $form->textField($gallery, 'album_id', array('class' => 'required text_area', 'maxlength' => '100'));
+                                       ?>
+                                    </td>
+                                 </tr>
+
                                  <tr>
                                     <td><label for="#">Title<span>*</span></label></td>
                                     <td>

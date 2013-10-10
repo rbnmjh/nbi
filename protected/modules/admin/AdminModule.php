@@ -25,4 +25,19 @@ class AdminModule extends CWebModule
 		else
 			return false;
 	}
+
+	/**
+ * Behaviors for this model
+ */
+public function behaviors(){
+  return array(
+    'sluggable' => array(
+      'class'=>'ext.behaviors.SluggableBehavior.SluggableBehavior',
+      'columns' => array('category', 'title'),
+      'unique' => true,
+      'update' => true,
+    ),
+  );
+}
+
 }

@@ -13,6 +13,7 @@ class AdminController extends Controller {
    }
 
    public function actionIndex() {
+
       if ($this->checkLogin()) {
          $data['tab'] = 0;
          $this->render('index', $data);
@@ -415,24 +416,61 @@ class AdminController extends Controller {
    //By RABIN
 
 public function actionAddPage(){
+    if ($this->checkLogin()) {
 		$page = new Page();
-	$data['page'] = $page;
-	if(isset($_POST['Page'])){
-		$page->attributes = $_POST['Page'];
-		if($page->save()){
-         $data['success_msg'] = 'Page added successfully.';
-			//$this->redirect(Yii::app()->request->baseUrl.'/admin/addPages');
-			}else{
+	   $data['page'] = $page;
+	   if(isset($_POST['Page'])){
+		    $page->attributes = $_POST['Page'];
+		       if($page->save()){
+               Yii::app()->user->setFlash('message', "Data saved!");
+			      $this->redirect(Yii::app()->request->baseUrl.'/admin/listPages');
+			   }else{
 			 $data['fail_msg'] = 'Fail to add Page.';
-			 }
-	}
+		       }
+      }
+   
+   
 	$this->render('addPage',$data);
+   }
+   else {
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
 }
 
 public function actionListPages(){
+   if ($this->checkLogin()) {
 	$page = Page::model()->findAll();
 	$data['pages']=$page;
 	$this->render('listPages',$data);
+}
+ else{
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+}
+public function actionEditPage($id){
+
+   if ($this->checkLogin()) {
+         $page = Page::model()->findByPk($id);
+         if(!empty($page)){
+            if(isset($_POST['Page'])){
+               $page->attributes = $_POST['Page'];
+               $page->update();
+               $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPages');
+            }
+         $data['page'] = $page;
+         $this->render('editPage', $data);
+
+         }
+         else{
+             Yii::app()->user->setFlash('message', "Unable to edit requested page.");
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPages');
+         }        
+        
+      }
+    else{
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+
 }
 
 public function actionDeletePage($id) {
@@ -446,6 +484,183 @@ public function actionDeletePage($id) {
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
    }
+
+public function actionAddAlbum(){
+    if ($this->checkLogin()) {
+      $album = new Album();
+      $data['album'] = $album;
+      if(isset($_POST['Album'])){
+          $album->attributes = $_POST['Album'];
+             if($album->save()){
+               Yii::app()->user->setFlash('message', "Data saved!");
+               $this->redirect(Yii::app()->request->baseUrl.'/admin/listAlbum');
+            }else{
+          $data['fail_msg'] = 'Fail to add an album.';
+
+             }
+      }
+   
+   
+   $this->render('addAlbum',$data);
+   }
+   else {
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+}
+
+public function actionListAlbum(){
+   if ($this->checkLogin()) {
+   $album = Album::model()->findAll();
+   $data['album']=$album;
+   $this->render('listAlbum',$data);
+}
+ else{
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+}
+public function actionEditAlbum($id){
+
+   if ($this->checkLogin()) {
+         $album = Album::model()->findByPk($id);
+         if(!empty($album)){
+            if(isset($_POST['Album'])){
+               $album->attributes = $_POST['Album'];
+               if($album->save())
+               $this->redirect(Yii::app()->request->baseUrl . '/admin/listAlbum');
+            else
+            $data['fail_msg'] = 'Fail to edit an album.';
+
+            }
+         $data['album'] = $album;
+         $this->render('editAlbum', $data);
+
+         }
+         else{
+             Yii::app()->user->setFlash('message', "Unable to edit requested page.");
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/listAlbum');
+         }        
+        
+      }
+    else{
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+
+}
+
+public function actionDeleteAlbum($id) {
+      if ($this->checkLogin()) {
+         $album = Album::model()->findByPk($id);
+         if (isset($album)) {
+            $album->delete();
+         }
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/listAlbum');
+      }else {
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+   }
+
+
+public function actionAddPub(){
+    if ($this->checkLogin()) {
+      $publication = new Publication();
+      $data['publication'] = $publication;
+      if(isset($_POST['Publication'])){
+            $publication = new Publication();
+            $publication->attributes = $_POST['Publication'];
+            $publication->files = CUploadedFile::getInstance($publication, 'files');
+            if ($publication->save()) {
+               $tmp = explode('.', $publication->files);
+               $file_extension = strtolower(end($tmp));
+               $file_name = Common::generate_filename() . '.' . $file_extension;
+               $publication->files->saveAs("publication/$file_name");
+               $publication->files = $file_name;
+               $publication->update();
+               $data['success_msg'] = 'Slider added successfully.';
+            }else {
+               $data['fail_msg'] = 'Fail to add publication.';
+            }
+      }
+   
+   
+   $this->render('addPub',$data);
+   }
+   else {
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+}
+
+public function actionListPub(){
+   if ($this->checkLogin()) {
+   $publication = Publication::model()->findAll();
+   $data['publication']=$publication;
+   $this->render('listPub',$data);
+}
+ else{
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+}
+public function actionEditPub($id){
+
+   if ($this->checkLogin()) {
+         $publication = Publication::model()->findByPk($id);
+         if(!empty($publication)){
+            if(isset($_POST['Publication'])){
+               $publication->attributes = $_POST['Publication'];
+               if($publication->save())
+               $this->redirect(Yii::app()->request->baseUrl . '/admin/listPub');
+            else
+            $data['fail_msg'] = 'Fail to edit an album.';
+
+            }
+         $data['publication'] = $publication;
+         $this->render('editpub', $data);
+
+         }
+         else{
+             Yii::app()->user->setFlash('message', "Unable to edit requested page.");
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/listPub');
+         }        
+        
+      }
+    else{
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+
+}
+
+public function actionDeletePub($id) {
+      if ($this->checkLogin()) {
+         $publication = Publication::model()->findByPk($id);
+         if (isset($publication)) {
+            $publication->delete();
+         }
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/listPub');
+      }else {
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*public function actionDeletePage(){
 $pageId = $_GET['page_id'];
 $page = Page::model()->findByPk($pageId);

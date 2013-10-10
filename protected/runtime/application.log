@@ -84,3 +84,39 @@ REQUEST_URI=/nbi/gii/model
 HTTP_REFERER=http://localhost/nbi/gii/default/index
 ---
 2013/10/08 12:53:59 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'nbi.tbl_migration' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `tbl_migration`.
+2013/10/09 12:43:25 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[HY000]: General error: 1005 Can't create table 'nbi.#sql-4c6_a6' (errno: 150). The SQL statement executed was: ALTER TABLE `gallery` ADD CONSTRAINT `gafk` FOREIGN KEY (`gallery_album_id`) REFERENCES `gallery_album` (`id`) ON DELETE CASCADE ON UPDATE CASCADE.
+2013/10/09 12:43:25 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[HY000]: General error: 1005 Can't create table 'nbi.#sql-4c6_a6' (errno: 150). The SQL statement executed was: ALTER TABLE `gallery` ADD CONSTRAINT `gafk` FOREIGN KEY (`gallery_album_id`) REFERENCES `gallery_album` (`id`) ON DELETE CASCADE ON UPDATE CASCADE' in /var/www/nbi/yii/db/CDbCommand.php:357
+Stack trace:
+#0 /var/www/nbi/yii/db/CDbCommand.php(1432): CDbCommand->execute()
+#1 /var/www/nbi/yii/db/CDbMigration.php(343): CDbCommand->addForeignKey('gafk', 'gallery', 'gallery_album_i...', 'gallery_album', 'id', 'CASCADE', 'CASCADE')
+#2 /var/www/nbi/protected/migrations/m131009_061848_gallery_album.php(14): CDbMigration->addForeignKey('gafk', 'gallery', 'gallery_album_i...', 'gallery_album', 'id', 'CASCADE', 'CASCADE')
+#3 /var/www/nbi/yii/cli/commands/MigrateCommand.php(385): m131009_061848_gallery_album->up()
+#4 /var/www/nbi/yii/cli/commands/MigrateCommand.php(109): MigrateCommand->migrateUp('m131009_061848_...')
+#5 [internal function]: MigrateCommand->actionUp(Array)
+#6 /var/www/nbi/yii/console/CConsoleCommand.php(172): ReflectionMethod->invokeArgs(Object(MigrateCommand), Array)
+#7 /var/www/nbi/yii/console/CConsoleCommandRunner.php(67): CConsoleCommand->run(Array)
+#8 /var/www/nbi/yii/console/CConsoleApplication.php(91): CConsoleCommandRunner->run(Array)
+#9 /var/www/nbi/yii/base/CApplication.php(169): CConsoleApplication->processRequest()
+#10 /var/www/nbi/yii/yiic.php(33): CApplication->run()
+#11 /var/www/nbi/protected/yiic.php(7): require_once('/var/www/nbi/yi...')
+#12 /var/www/nbi/protected/yiic(4): require_once('/var/www/nbi/pr...')
+#13 {main}
+---
+2013/10/09 12:45:08 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'gallery_album_id'. The SQL statement executed was: ALTER TABLE `gallery` ADD `gallery_album_id` int(11) AFTER `id`.
+2013/10/09 12:45:08 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'gallery_album_id'. The SQL statement executed was: ALTER TABLE `gallery` ADD `gallery_album_id` int(11) AFTER `id`' in /var/www/nbi/yii/db/CDbCommand.php:357
+Stack trace:
+#0 /var/www/nbi/yii/db/CDbCommand.php(1374): CDbCommand->execute()
+#1 /var/www/nbi/yii/db/CDbMigration.php(281): CDbCommand->addColumn('gallery', 'gallery_album_i...', 'int(11) AFTER `...')
+#2 /var/www/nbi/protected/migrations/m131009_061848_gallery_album.php(13): CDbMigration->addColumn('gallery', 'gallery_album_i...', 'int(11) AFTER `...')
+#3 /var/www/nbi/yii/cli/commands/MigrateCommand.php(385): m131009_061848_gallery_album->up()
+#4 /var/www/nbi/yii/cli/commands/MigrateCommand.php(109): MigrateCommand->migrateUp('m131009_061848_...')
+#5 [internal function]: MigrateCommand->actionUp(Array)
+#6 /var/www/nbi/yii/console/CConsoleCommand.php(172): ReflectionMethod->invokeArgs(Object(MigrateCommand), Array)
+#7 /var/www/nbi/yii/console/CConsoleCommandRunner.php(67): CConsoleCommand->run(Array)
+#8 /var/www/nbi/yii/console/CConsoleApplication.php(91): CConsoleCommandRunner->run(Array)
+#9 /var/www/nbi/yii/base/CApplication.php(169): CConsoleApplication->processRequest()
+#10 /var/www/nbi/yii/yiic.php(33): CApplication->run()
+#11 /var/www/nbi/protected/yiic.php(7): require_once('/var/www/nbi/yi...')
+#12 /var/www/nbi/protected/yiic(4): require_once('/var/www/nbi/pr...')
+#13 {main}
+---
