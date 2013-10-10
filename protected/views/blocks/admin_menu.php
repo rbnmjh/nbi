@@ -17,22 +17,6 @@
                         <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/listSliders">List slider</a></span></li>
                      </ul>
                   </li>
-                  <li><span class="top"><a href="#">Menu</a></span>
-                     <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 120px;">
-                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddMenu">Add menu</a></span></li>
-                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListMenus">List menus</a></span></li>
-                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddMenuItems">Add menu items</a></span></li>
-                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListMenuItems">List menu items</a></span></li>
-                     </ul>
-                  </li>
-                  <li><span class="top"><a href="#">Wine</a></span>
-                     <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 120px;">
-                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddWine">Add wine</a></span></li>
-                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListWines">List wines</a></span></li>
-                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddWineItems">Add wine items</a></span></li>
-                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListWineItems">List wine items</a></span></li>
-                     </ul>
-                  </li>
                   <li><span class="top"><a href="#">Gallery</a></span>
                      <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 60px;">
                         <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddGallery">Add Gallery</a></span></li>
@@ -56,6 +40,30 @@
                      <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 60px;">
                         <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddPage">Add Pages</a></span></li>
                         <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListPages">List Pages</a></span></li>
+                     </ul>
+                  </li>
+                  <li><span class="top"><a href="#">Publications</a></span>
+                     <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 60px;">
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddPublications">Add Publications</a></span></li>
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListPublications">List Publications</a></span></li>
+                     </ul>
+                  </li>
+                  <li><span class="top"><a href="#">Media</a></span>
+                     <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 60px;">
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddMedia">Add Media</a></span></li>
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListMedia">List Media</a></span></li>
+                     </ul>
+                  </li>
+                  <li><span class="top"><a href="#">News</a></span>
+                     <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 60px;">
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddNews">Add News</a></span></li>
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListNews">List News</a></span></li>
+                     </ul>
+                  </li>
+                  <li><span class="top"><a href="#">Blogs</a></span>
+                     <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 60px;">
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddBlogs">Add Blogs</a></span></li>
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListBlogs">List Blogs</a></span></li>
                      </ul>
                   </li>
                </ul>

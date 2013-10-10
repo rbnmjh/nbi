@@ -471,8 +471,8 @@ div.main {
 .error {
 	padding: 10px;
 	margin: 4px;
-	border: 1px solid #ff0000;
-	background-color: #FDFBCF;
+	/*border: 1px solid #ff0000;
+	background-color: #FDFBCF;*/
 	padding: 10px;
 	font-size: 1.0em;
 	font-weight:bold;

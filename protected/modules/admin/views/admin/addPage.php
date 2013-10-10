@@ -30,9 +30,10 @@
    <?php $this->renderPartial('//blocks/admin_menu'); ?>
    <div class="center_content">
       <div class="right_content">
-         <h2>Menu > Add pages:</h2>
+         <h2>Pages > Add pages:</h2>
+          
          <div class="admin-setting">
-            <?php 
+           <?php 
             if(isset($success_msg)){
                echo $success_msg;
             }
@@ -40,7 +41,7 @@
                echo $fail_msg;
             }
 
-            $form = $this->beginWidget('CActiveForm', array(
+              $form = $this->beginWidget('CActiveForm', array(
                 'id'                     => 'edti_contact_form',
                 'enableClientValidation' => true,
                 'enableAjaxValidation'   => false, //turn on ajax validation on the client side
@@ -62,7 +63,7 @@
                            <table class="adminform">
                               <tbody>
                                  <tr>
-                                    <th colspan="2">Edit contact information:</th>
+                                    <th colspan="2">Add Page Content:</th>
                                  </tr>
                                  <tr>
                                     <td><label for="#">Page<span>*</span></label></td>
@@ -92,7 +93,7 @@
                                  <tr>
                                     <td>&nbsp;</td>
                                     <td>
-                                       <?php echo CHtml::submitButton('submit', array('value' => 'Update')); ?>
+                                       <?php echo CHtml::submitButton('submit', array('value' => 'Add')); ?>
                                     </td>
                                  </tr>
                                  <tr>

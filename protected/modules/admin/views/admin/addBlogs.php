@@ -2,7 +2,7 @@
 	tinyMCE.init({
 		// General options
 		mode : "exact",
-          elements : "Page_content",
+          elements : "Blog_content",
 		theme : "advanced",
 		skin : "o2k7",
           skin_variant : "silver",
@@ -30,22 +30,24 @@
    <?php $this->renderPartial('//blocks/admin_menu'); ?>
    <div class="center_content">
       <div class="right_content">
-         <h2>Pages > Edit pages:</h2>
-          <div class="admin-setting">
-            <?php
+         <h2>Blogs > Add Blogs:</h2>
+          
+         <div class="admin-setting">
+           <?php 
             if(isset($success_msg)){
                echo $success_msg;
             }
             else if(isset($fail_msg)){
                echo $fail_msg;
             }
-            $form = $this->beginWidget('CActiveForm', array(
+
+              $form = $this->beginWidget('CActiveForm', array(
                 'id'                     => 'edti_contact_form',
                 'enableClientValidation' => true,
                 'enableAjaxValidation'   => false, //turn on ajax validation on the client side
                 'clientOptions'          => array(
                     'validateOnSubmit' => true,
-                ),
+                    ),
                 'htmlOptions'      => array(
                     'onsubmit'   => 'return true;',
                     'enctype'    => 'multipart/form-data',
@@ -61,37 +63,45 @@
                            <table class="adminform">
                               <tbody>
                                  <tr>
-                                    <th colspan="2">Edit Page Content:</th>
+                                    <th colspan="2">Add Blogs Content:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Page<span>*</span></label></td>
+                                    <td><label for="#">Title<span>*</span></label></td>
                                     <td>
                                        <?php
-                                          echo $form->textField($Page, 'page', array('class' => 'required text_area', 'maxlength' => '100'));
+                                          
+                                          echo $form->textField($blogs, 'title', array('class' => 'required text_area', 'maxlength' => '100'));
+                                          echo $form->error($blogs,'title');
                                        ?>
                                     </td>
                                  </tr>
-                                 <tr>
-                                    <td><label for="#">Page title<span>*</span></label></td>
-                                    <td>
-                                       <?php
-                                          echo $form->textField($Page, 'page_title', array('class' => 'required text_area', 'maxlength' => '100'));
-                                       ?>
-                                    </td>
-                                 </tr>
+                                
                                  <tr>
                                     <td><label for="#">Content<span>*</span></label></td>
                                     <td>
                                        <?php
-                                          echo $form->textArea($Page, 'content', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));
+                                          echo $form->textArea($blogs, 'content', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));
+                                          echo $form->error($blogs, 'content');
+
                                        ?>
                                     </td>
                                  </tr>
                                  
+                                  <tr>
+                                    <td><label for="#">Status<span>*</span></label></td>
+                                    <td>
+                                       <?php
+                                        echo $form->radioButtonList($blogs, 'status', array( '0' => 'unpublished', '1' => 'published'),array('separator'=>''));
+                                        echo $form->error($blogs,'status');
+                                       ?>
+                                    </td>
+                                 </tr>
+
+
                                  <tr>
                                     <td>&nbsp;</td>
                                     <td>
-                                       <?php echo CHtml::submitButton('submit', array('value' => 'Update')); ?>
+                                       <?php echo CHtml::submitButton('submit', array('value' => 'Add')); ?>
                                     </td>
                                  </tr>
                                  <tr>
