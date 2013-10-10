@@ -159,188 +159,6 @@ class AdminController extends Controller {
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
    }
-
-   public function actionAddMenu() {
-      if ($this->checkLogin()) {
-         if (isset($_POST['MenusWine'])) {
-            $menu = new MenusWine();
-            $menu->attributes = $_POST['MenusWine'];
-            $menu->type = 'menu';
-            if ($menu->save()) {
-               $data['success_msg'] = 'menu added successfully.';
-            }else {
-               $data['fail_msg'] = 'Fail to add menu.';
-            }
-         }
-
-         $menu = new MenusWine();
-         $data['menu'] = $menu;
-         $this->render('addMenu', $data);
-      }else {
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
-   public function actionAddWine() {
-      if ($this->checkLogin()) {
-         if (isset($_POST['MenusWine'])) {
-            $menu = new MenusWine();
-            $menu->attributes = $_POST['MenusWine'];
-            $menu->type = 'wine';
-            if ($menu->save()) {
-               $data['success_msg'] = 'menu added successfully.';
-            }else {
-               $data['fail_msg'] = 'Fail to add menu.';
-            }
-         }
-
-         $menu = new MenusWine();
-         $data['wine'] = $menu;
-         $this->render('addWine', $data);
-      }else{
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
-   public function actionListMenus() {
-      if ($this->checkLogin()) {
-         $menus = MenusWine::model()->findAllByAttributes(array('type'         => 'menu'));
-         $data['menus'] = $menus;
-         $this->render('listMenus', $data);
-      }else{
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
-   public function actionListWines() {
-      if ($this->checkLogin()) {
-         $menus = MenusWine::model()->findAllByAttributes(array('type'         => 'wine'));
-         $data['wines'] = $menus;
-         $this->render('listWines', $data);
-      }else{
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
-   public function actionDeleteMenu($id) {
-      if ($this->checkLogin()) {
-         $menus = MenusWine::model()->findByPk($id);
-         if (isset($menus)) {
-            $menus->delete();
-         }
-
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/ListMenus');
-      }
-      else {
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
-   public function actionDeleteWine($id) {
-      if ($this->checkLogin()) {
-         $wines = MenusWine::model()->findByPk($id);
-         if (isset($wines)) {
-            $wines->delete();
-         }
-
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/ListWines');
-      }else{
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
-   public function actionAddMenuItems() {
-      if ($this->checkLogin()) {
-         if (isset($_POST['MenuItems'])) {
-            $menuItem = new MenuItems();
-            $menuItem->attributes = $_POST['MenuItems'];
-            $date = new DateTime();
-            $menuItem->update_date = $date->format("Y-m-d");
-            if ($menuItem->save()) {
-               $data['success_msg'] = 'menu item added successfully.';
-            }
-            else {
-               $data['fail_msg'] = 'Fail to add menu item.';
-            }
-         }
-
-         $menuItem = new MenuItems();
-         $data['menuItem'] = $menuItem;
-         $this->render('addMenuItem', $data);
-      }
-      else {
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
-   public function actionAddWineItems() {
-      if ($this->checkLogin()) {
-         if (isset($_POST['WineItems'])) {
-            $wineItem = new WineItems();
-            $wineItem->attributes = $_POST['WineItems'];
-            $date = new DateTime();
-            $wineItem->update_date = $date->format("Y-m-d");
-            if ($wineItem->save()) {
-               $data['success_msg'] = 'menu added successfully.';
-            }
-            else {
-               $data['fail_msg'] = 'Fail to add menu.';
-            }
-         }
-
-         $wineItem = new WineItems();
-         $data['wineItem'] = $wineItem;
-         $this->render('addWineItem', $data);
-      }else {
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
-   public function actionListMenuItems() {
-      if ($this->checkLogin()) {
-         $menus = MenuItems::model()->findAll();
-         $data['menuItems'] = $menus;
-         $this->render('listMenuItems', $data);
-      }else {
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
-   public function actionListWineItems() {
-      if ($this->checkLogin()) {
-         $menus = WineItems::model()->findAll();
-         $data['wineItems'] = $menus;
-         $this->render('listWineItems', $data);
-      }else {
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
-   public function actionDeleteMenuItems($id) {
-      if ($this->checkLogin()) {
-         $menuItem = MenuItems::model()->findByPk($id);
-         if (isset($menuItem)) {
-            $menuItem->delete();
-         }
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/ListMenuItems');
-      }else {
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
-   public function actionDeleteWineItems($id) {
-      if ($this->checkLogin()) {
-         $wineItem = WineItems::model()->findByPk($id);
-         if (isset($wineItem)) {
-            $wineItem->delete();
-         }
-
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/ListWineItems');
-      }else {
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
-      }
-   }
-
    public function actionEditAboutUs() {
       if ($this->checkLogin()) {
          $page = Page::model()->findByAttributes(array('page' => 'aboutus'));
@@ -413,7 +231,7 @@ class AdminController extends Controller {
    } 
    
    //By RABIN
-
+/*
 public function actionAddPage(){
 		$page = new Page();
 	$data['page'] = $page;
@@ -421,58 +239,279 @@ public function actionAddPage(){
 		$page->attributes = $_POST['Page'];
 		if($page->save()){
          $data['success_msg'] = 'Page added successfully.';
-			//$this->redirect(Yii::app()->request->baseUrl.'/admin/addPages');
+			$this->redirect(Yii::app()->request->baseUrl.'/admin/addPage');
 			}else{
 			 $data['fail_msg'] = 'Fail to add Page.';
 			 }
 	}
-	$this->render('addPage',$data);
-}
-
-public function actionListPages(){
-	$page = Page::model()->findAll();
-	$data['pages']=$page;
-	$this->render('listPages',$data);
-}
-
-public function actionDeletePage($id) {
-      if ($this->checkLogin()) {
-         $page = Page::model()->findByPk($id);
-         if (isset($page)) {
-            $page->delete();
-         }
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPages');
-      }else {
+      $page = new Page();
+      $data['page'] = $page;
+      $this->render('addPage', $data);
+      }else{
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
-   }
-/*public function actionDeletePage(){
-$pageId = $_GET['page_id'];
-$page = Page::model()->findByPk($pageId);
-	if($page->delete()){
-		$this->redirect(Yii::app()->request->baseUrl.'/admin/listPages');
-		
-		}
-	}
-	*/
-/*
-public function actionAddSlider(){
-	$slider = new Slider();
-	$data['slider'] = $slider;
-	if (isset($_POST['Slider'])){
-	  $slider->attributes = $_POST['Slider'];
-	  if ($slider->save()){
-		  $this->redirect(Yii::app()->request->baseUrl.'/admin/viewSlider');
-		  }else{
-			  $this->redirect(Yii::app()->request->baseUrl.'/admin/addSlider');
-			  }
-		}$this->render('addSlider',$data);
-	}
+	}*/
 
-public function actionViewSlider(){
-	$slider = Slider::model()->findAll();
-	$data['sliders']=$slider;
-	$this->render('viewSlider',$data);
-}
-*/
+
+   public function actionAddPage() {
+      if ($this->checkLogin()) {
+         if (isset($_POST['Page'])) {
+            $page = new Page();
+            $page->attributes = $_POST['Page'];
+               //$date = new DateTime();
+               //$page->update_date = $date->format("Y-m-d");
+               if ($page->save()) {
+                  //$data['success_msg'] = 'Page added successfully.';
+                  Yii::app()->user->setFlash('msg','Page added successfully.');
+                  $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPages');
+               }
+               else {
+                  Yii::app()->user->setFlash('msg','Fail to add page.');
+                  //$data['fail_msg'] = 'Fail to add page.';
+               }
+            }
+            $page = new Page();
+            $data['page'] = $page;
+            $this->render('addPage', $data);
+         }
+         else {
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+   }
+
+   public function actionEditPage($id){
+     if ($this->checkLogin()) {
+         $page = Page::model()->findByPk($id);
+            if(isset($_POST['Page'])){
+               $page->attributes = $_POST['Page'];
+                if ($page->update()){
+                  Yii::app()->user->setFlash('msg','Page updated successfully.');
+                  $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPages');
+               }
+               else {
+                  Yii::app()->user->setFlash('msg','Fail to update page.');
+               }  
+               
+            }
+            
+            $data['Page'] = $page;
+            $this->render('editPage', $data);
+      }
+         else{
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         } 
+   }
+
+   public function actionListPages(){
+   	$page = Page::model()->findAll();
+   	$data['pages']=$page;
+   	$this->render('listPages',$data);
+   }
+
+   public function actionDeletePage($id) {
+      if ($this->checkLogin()) {
+         $page = Page::model()->findByPk($id);
+            if (isset($page)) {
+               $page->delete();
+
+            }
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPages');
+         }else {
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         }
+   }
+
+   public function actionAddMedia() {
+      if ($this->checkLogin()) {
+         if (isset($_POST['Media'])) {
+            $media = new Media();
+            $media->attributes = $_POST['Media'];
+
+               if ($media->save()) {
+                  Yii::app()->user->setFlash('msg','Media added successfully.');
+                  $this->redirect(Yii::app()->request->baseUrl . '/admin/ListMedia');
+               }
+               else {
+
+                  $data['fail_msg'] = 'Fail to add Page.';
+
+               }
+         }
+            $media = new Media();
+            $data['media'] = $media;
+            $this->render('addMedia', $data);
+      }
+         else {
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         }
+   }
+
+   public function actionEditMedia($id){
+     if ($this->checkLogin()) {
+         $media = Media::model()->findByPk($id);
+            if(isset($_POST['Media'])){
+               $media->attributes = $_POST['Media'];
+                if ($media->update()){
+                  Yii::app()->user->setFlash('msg','Media updated successfully.');
+                  $this->redirect(Yii::app()->request->baseUrl . '/admin/ListMedia');
+               }
+               else {
+                  Yii::app()->user->setFlash('msg','Fail to update media.');
+               }  
+               
+            }
+            
+            $data['media'] = $media;
+            $this->render('editMedia', $data);
+      }
+         else{
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         } 
+   }
+   public function actionListMedia(){
+      $media = Media::model()->findAll();
+      $data['media']=$media;
+      $this->render('listMedia',$data);
+   }
+
+   public function actionDeleteMedia($id) {
+      if ($this->checkLogin()) {
+         $media = Media::model()->findByPk($id);
+            if (isset($media)) {
+              $media->delete();
+               Yii::app()->user->setFlash('msg','Media Deleted successfully.');
+            }
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/ListMedia');
+         }else {
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         }
+   }
+
+   public function actionAddNews() {
+      if ($this->checkLogin()) {
+         if (isset($_POST['News'])) {
+            $news = new News();
+            $news->attributes = $_POST['News'];
+
+               if ($news->save()) {
+                  Yii::app()->user->setFlash('msg','News added successfully.');
+                  $this->redirect(Yii::app()->request->baseUrl . '/admin/ListNews');
+               }
+               else {
+
+                  $data['fail_msg'] = 'Fail to add News.';
+                 
+               }
+         }
+            $news = new News();
+            $data['news'] = $news;
+            $this->render('addNews', $data);
+      }
+         else {
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         }
+   }
+
+   public function actionEditNews($id){
+     if ($this->checkLogin()) {
+         $news = News::model()->findByPk($id);
+            if(isset($_POST['News'])){
+               $news->attributes = $_POST['News'];
+                if ($news->update()){
+                  Yii::app()->user->setFlash('msg','News updated successfully.');
+                  $this->redirect(Yii::app()->request->baseUrl . '/admin/ListNews');
+               }
+               else {
+                  Yii::app()->user->setFlash('msg','Fail to update news.');
+               }  
+            }
+            $data['news'] = $news;
+            $this->render('editNews', $data);
+      }
+         else{
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         } 
+   }
+   public function actionListNews(){
+      $news = News::model()->findAll();
+      $data['news']=$news;
+      $this->render('listNews',$data);
+   }
+
+   public function actionDeleteNews($id) {
+      if ($this->checkLogin()) {
+         $news = News::model()->findByPk($id);
+            if (isset($news)) {
+              $news->delete();
+               Yii::app()->user->setFlash('msg','News Deleted successfully.');
+            }
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/ListNews');
+         }else {
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         }
+   }
+   public function actionAddBlogs() {
+      if ($this->checkLogin()) {
+         if (isset($_POST['Blog'])) {
+            $blogs = new Blog();
+            $blogs->attributes = $_POST['Blog'];
+
+               if ($blogs->save()) {
+                  Yii::app()->user->setFlash('msg','Blog added successfully.');
+                  $this->redirect(Yii::app()->request->baseUrl . '/admin/ListBlogs');
+               }
+               else {
+
+                  $data['fail_msg'] = 'Fail to add blog.';
+                 
+               }
+         }
+            $blogs = new Blog();
+            $data['blogs'] = $blogs;
+            $this->render('addBlogs', $data);
+      }
+         else {
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         }
+   }
+
+   public function actionEditBlogs($id){
+     if ($this->checkLogin()) {
+         $blogs = Blog::model()->findByPk($id);
+            if(isset($_POST['Blog'])){
+               $blogs->attributes = $_POST['Blog'];
+                if ($blogs->update()){
+                  Yii::app()->user->setFlash('msg','Blog updated successfully.');
+                  $this->redirect(Yii::app()->request->baseUrl . '/admin/ListBlogs');
+               }
+               else {
+                  Yii::app()->user->setFlash('msg','Fail to update blog.');
+               }  
+            }
+            $data['blogs'] = $blogs;
+            $this->render('editBlogs', $data);
+      }
+         else{
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         } 
+   }
+   public function actionListBlogs(){
+      $blogs = Blog::model()->findAll();
+      $data['blogs']=$blogs;
+      $this->render('listBlogs',$data);
+   }
+
+   public function actionDeleteBlogs($id) {
+      if ($this->checkLogin()) {
+         $blogs = Blog::model()->findByPk($id);
+            if (isset($blogs)) {
+              $blogs->delete();
+               Yii::app()->user->setFlash('msg','Blog Deleted successfully.');
+            }
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/ListBlogs');
+         }else {
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         }
+   }
+
 }

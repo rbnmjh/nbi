@@ -4,6 +4,8 @@ class m131008_025812_initial_db extends CDbMigration
 {
 	public function up()
 	{
+
+
 		$sql="CREATE TABLE IF NOT EXISTS `album` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `album_name` varchar(255) NOT NULL,

@@ -40,7 +40,7 @@ class Blog extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status', 'required'),
+			array('title, content, status', 'required'),
 			array('title', 'length', 'max'=>255),
 			array('status', 'length', 'max'=>1),
 			array('content', 'safe'),

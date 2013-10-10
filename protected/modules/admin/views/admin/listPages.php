@@ -2,7 +2,12 @@
    <?php $this->renderPartial('//blocks/admin_menu'); ?>
    <div class="center_content">
       <div class="right_content">
-         <h2>Page > List pages:</h2>
+         <h2>Pages > List pages:</h2>
+            <?php if(Yii::app()->user->hasFlash('msg')):?>
+               <div class="info">
+                  <?php echo Yii::app()->user->getFlash('msg'); ?>
+               </div>
+            <?php endif; ?>
          <div class="admin-setting">
             <table class="adminlist">
                <tbody>
@@ -10,7 +15,7 @@
                      <th>#</th>
                      <th align="left"><strong>Title</strong></th>
                      <th align="left">Description</th>
-                     <th align="left" width="50">Action</th>
+                     <th align="left" width="100">Action</th>
                   </tr>
                   <?php 
                      $count = 1;
@@ -20,7 +25,8 @@
                      <td align="center"><?php echo $count++; ?></td>
                      <td><?php echo $item->page; ?></td>
                      <td><?php echo $item->page_title; ?></td>   
-                     <td>
+                     <td><a href="<?php echo Yii::app()->request->baseUrl.'/admin/EditPage/'.$item->id; ?>">Edit</a>
+                        &nbsp; &nbsp; &nbsp;
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/DeletePage/'.$item->id; ?>">Delete</a>
                   </tr>
                   <?php } ?>
