@@ -11,6 +11,8 @@
       $script->registerCssFile(Yii::app()->request->baseUrl . '/media/admin/style3.css');
       $script->registerCssFile(Yii::app()->request->baseUrl . '/media/admin/rokmoomenu.css');
       $script->registerScriptFile(Yii::app()->request->baseUrl . '/media/javascripts/jquery.js');
+      $script->registerScriptFile(Yii::app()->request->baseUrl .'/media/javascripts/jquery.validate.js');
+      $script->registerScriptFile(Yii::app()->request->baseUrl .'/media/javascripts/additional-methods.js');
       $script->registerScriptFile(Yii::app()->request->baseUrl . '/media/tinymce/jscripts/tiny_mce/tiny_mce.js');
       ?>
    </head>

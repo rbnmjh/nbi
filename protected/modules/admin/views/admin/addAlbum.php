@@ -42,6 +42,7 @@
                                        <?php
                                           echo $form->textField($album, 'album_name', array('class' => 'required text_area', 'maxlength' => '100'));
                                        ?>
+                                       <?php echo $form->error($album,'album_name'); ?>
                                     </td>
                                  </tr>
                                  <tr>

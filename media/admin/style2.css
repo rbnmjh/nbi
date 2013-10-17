@@ -468,16 +468,22 @@ div.main {
 
 }
 
-.error {
+/*.error {
 	padding: 10px;
 	margin: 4px;
 	/*border: 1px solid #ff0000;
-	background-color: #FDFBCF;*/
+	background-color: #FDFBCF;
 	padding: 10px;
 	font-size: 1.0em;
 	font-weight:bold;
+	/*color: #ff0000;
+	width: 400px; 
+}*/
+div.error{
 	color: #ff0000;
-	width: 400px;
+}
+input.error {
+    border: 1px solid #FF0000;
 }
 
 
