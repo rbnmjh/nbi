@@ -3,30 +3,40 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Gallery > List Gallery:</h2>
-         <div class="admin-setting">
+        <?php if(Yii::app()->user->hasFlash('message')):?>
+             <div class="info">
+             <?php echo Yii::app()->user->getFlash('message'); ?>
+            </div>
+      <?php endif; ?>
+          <div class="admin-setting">
             <table class="adminlist">
                <tbody>
                   <tr>
                      <th>#</th>
+                     <th align="left">Album Name</th>
                      <th align="left"><strong>Title</strong></th>
                      <th align="left">Description</th>
-                     <th align="left" width="50">Action</th>
+                     <th align="left" width="90">Action</th>
                   </tr>
                   <?php 
                      $count = 1;
+
                      foreach($gallery as $img){
+
                   ?>
                   <tr>
                      <td align="center"><?php echo $count++; ?></td>
+                     <td >Album Name</td>
                      <td><?php echo $img->title; ?></td>
-                     <td><a href="<?php echo Yii::app()->request->baseUrl.'/uploads/'.$img->image_name; ?>" target="_blank" style="color:#333333;"> <?php echo $img->image_name; ?></a></td>   
+                     <td> <?php echo $img->description; ?></td>   
                      <td>
+                        <a href="<?php echo Yii::app()->request->baseUrl.'/admin/editGallery/'.$img->id; ?>">Edit</a>&nbsp; &nbsp;
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/DeleteGallery/'.$img->id; ?>">Delete</a>
                      </td>
                   </tr>
                   <?php } ?>
                   <tr>
-                     <td colspan="3"> <strong>1</strong>&nbsp;|&nbsp;</td>
+                     <td colspan="4"> <strong>1</strong>&nbsp;|&nbsp;</td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddGallery">
                            <strong>Add New</strong>

@@ -39,11 +39,18 @@ class Gallery extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('album_id','required'),
+			array('image_name', 'required','on'=>array('AddGallery')),
 			array('album_id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>255),
+			array('image_name', 'length', 'max'=>255),
+
+			array('image_name', 'file', 'types'=>'jpg,jpeg,png,bmp,gif','on'=>'update', 'on'=>'insert'),
+			array('description,title', 'safe'),
+			 
+
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, album_id', 'safe', 'on'=>'search'),
+			array('id, image_name, album_id', 'safe', 'on'=>'search'),
 		);
 	}
 

@@ -89,17 +89,21 @@ class AdminController extends Controller {
             $gallary->is_active = 1;
             $date = new DateTime();
             $gallary->upload_date = $date->format("Y-m-d");
-            $gallary->image_name = CUploadedFile::getInstance($gallary, 'image_name');
+            $uploaded_files = CUploadedFile::getInstance($gallary, 'image_name');
             if ($gallary->save()) {
-               $tmp = explode('.', $gallary->image_name);
+               if(!empty($uploaded_files)){
+               $tmp = explode('.', $uploaded_files);
                $file_extension = strtolower(end($tmp));
                $file_name = Common::generate_filename() . '.' . $file_extension;
-               $gallary->image_name->saveAs("uploads/$file_name");
+               $uploaded_files->saveAs("uploads/gallery/$file_name");
                $gallary->image_name = $file_name;
                $gallary->update();
-               $data['success_msg'] = 'Slider added successfully.';
+               }
+                Yii::app()->user->setFlash('message', "Data saved!");
+               $this->redirect(Yii::app()->request->baseUrl.'/admin/listGallery');
+               
             }else {
-               $data['fail_msg'] = 'Fail to add slider.';
+               $data['fail_msg'] = 'Fail to add gallery.';
             }
          }
 
@@ -110,6 +114,52 @@ class AdminController extends Controller {
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
    }
+
+  public function actionEditGallery($id){
+
+   if ($this->checkLogin()) {
+         $gallery = Gallery::model()->findByPk($id);
+         
+         if(!empty($gallery)){
+             if(isset($_POST['Gallery'])){
+                  $old_file=$gallery->attributes['image_name'];
+                  $gallery->attributes = $_POST['Gallery'];
+                  $gallery->image_name=$old_file;
+                  $uploaded_files= CUploadedFile::getInstance($gallery, 'image_name');
+                  if ($gallery->save()) {
+                       if(!empty($uploaded_files)){ // check if uploaded file is set or not
+                           $tmp = explode('.', $uploaded_files);
+                           $file_extension = strtolower(end($tmp));
+                           $file_name = Common::generate_filename() . '.' . $file_extension;
+                           $uploaded_files->saveAs('uploads/gallery/'.$file_name);
+                           $gallery->image_name = $file_name;
+                           $gallery->update();
+                           if($old_file!='' && file_exists('uploads/gallery/'. $old_file))
+                              unlink('uploads/gallery/'. $old_file);
+                     }
+                     Yii::app()->user->setFlash('message', "Data updated!");
+                     $this->redirect(Yii::app()->request->baseUrl.'/admin/listGallery');
+            
+                  }else {
+                     $data['fail_msg'] = 'Fail to edit publication.';
+                  }
+                }
+         $data['gallery'] = $gallery;
+         $this->render('editGallery', $data);
+
+         }
+         else{
+             Yii::app()->user->setFlash('message', "Unable to edit requested page.");
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/listGallery');
+         }        
+        
+      }
+    else{
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+
+}
+
 
    public function actionListSliders() {
       if ($this->checkLogin()) {
@@ -123,7 +173,7 @@ class AdminController extends Controller {
 
    public function actionListGallery() {
       if ($this->checkLogin()) {
-         $gallery = Gallery::model()->findAllByAttributes(array('is_active' => 1));
+         $gallery = Gallery::model()->with('album')->findAllByAttributes(array('is_active' => 1));
          $data['gallery'] = $gallery;
          $this->render('listGallery', $data);
       }else {
@@ -150,9 +200,11 @@ class AdminController extends Controller {
       if ($this->checkLogin()) {
          $gallery = Gallery::model()->findByPk($id);
          if (isset($gallery)) {
-            if (file_exists('uploads/' . $gallery->image_name)) unlink('uploads/' . $gallery->image_name);
-
-            $gallery->delete();
+                 if($gallery->delete()){
+                     if ($gallery->attributes['image_name']!='' && file_exists('uploads/gallery/' . $gallery->attributes['image_name'])) {
+                            unlink('uploads/gallery/' . $gallery->attributes['image_name']);
+                         }
+                 }
          }
 
          $this->redirect(Yii::app()->request->baseUrl . '/admin/ListGallery');
@@ -557,10 +609,12 @@ public function actionAddPub(){
                $tmp = explode('.', $publication->files);
                $file_extension = strtolower(end($tmp));
                $file_name = Common::generate_filename() . '.' . $file_extension;
-               $publication->files->saveAs("publication/$file_name");
+               $publication->files->saveAs('publications/'.$file_name);
                $publication->files = $file_name;
                $publication->update();
-               $data['success_msg'] = 'Slider added successfully.';
+               Yii::app()->user->setFlash('message', "Data saved!");
+               $this->redirect(Yii::app()->request->baseUrl.'/admin/listPub');
+      
             }else {
                $data['fail_msg'] = 'Fail to add publication.';
             }
@@ -588,17 +642,32 @@ public function actionEditPub($id){
 
    if ($this->checkLogin()) {
          $publication = Publication::model()->findByPk($id);
+         
          if(!empty($publication)){
-            if(isset($_POST['Publication'])){
-               $publication->attributes = $_POST['Publication'];
-               if($publication->save())
-               $this->redirect(Yii::app()->request->baseUrl . '/admin/listPub');
-            else
-            $data['fail_msg'] = 'Fail to edit an album.';
-
-            }
+             if(isset($_POST['Publication'])){
+                  $old_file=$publication->attributes['files'];
+                  $publication->attributes = $_POST['Publication'];
+                  $uploaded_files= CUploadedFile::getInstance($publication, 'files');
+                  if ($publication->save()) {
+                       if(!empty($uploaded_files)){ // check if uploaded file is set or not
+                           $tmp = explode('.', $uploaded_files);
+                           $file_extension = strtolower(end($tmp));
+                           $file_name = Common::generate_filename() . '.' . $file_extension;
+                           $uploaded_files->saveAs('publications/'.$file_name);
+                           $publication->files = $file_name;
+                           $publication->update();
+                           if($old_file!='' && file_exists('publications/'. $old_file))
+                              unlink('publications/'. $old_file);
+                     }
+                     Yii::app()->user->setFlash('message', "Data updated!");
+                     $this->redirect(Yii::app()->request->baseUrl.'/admin/listPub');
+            
+                  }else {
+                     $data['fail_msg'] = 'Fail to edit publication.';
+                  }
+                }
          $data['publication'] = $publication;
-         $this->render('editpub', $data);
+         $this->render('editPub', $data);
 
          }
          else{
@@ -617,7 +686,12 @@ public function actionDeletePub($id) {
       if ($this->checkLogin()) {
          $publication = Publication::model()->findByPk($id);
          if (isset($publication)) {
-            $publication->delete();
+            if($publication->delete()){
+            $old_file=$publication->attributes['files'];
+            if($old_file!='' && file_exists('publications/'. $old_file))
+            unlink('publications/'. $old_file);
+
+            }
          }
          $this->redirect(Yii::app()->request->baseUrl . '/admin/listPub');
       }else {

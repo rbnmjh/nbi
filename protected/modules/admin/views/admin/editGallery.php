@@ -2,7 +2,7 @@
    <?php $this->renderPartial('//blocks/admin_menu');?>
    <div class="center_content">
       <div class="right_content">
-         <h2>Gallery > Add Gallery:</h2>
+         <h2>Gallery > Edit Gallery:</h2>
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){
@@ -34,7 +34,7 @@
                            <table class="adminform">
                               <tbody>
                                  <tr>
-                                    <th colspan="2">Add Gallery Images:</th>
+                                    <th colspan="2">Edit Gallery Images:</th>
                                  </tr>
  
                                   <tr>
@@ -103,6 +103,10 @@
     // value = value of the element (file name)
     return this.optional(element) || (element.files[0].size <= param) 
 });
+    $.validator.addMethod('empty', function(value, element) {
+        return (value === '');
+    }, "This field must remain empty!");
+
   $("#gallary_form").validate({
     errorElement: "div",
     errorPlacement: function(error, element) {
@@ -112,7 +116,10 @@
                   
                   'Gallery[album_id]': "required",
                   'Gallery[image_name]':{
-                      required: true,
+                     required: {
+                    depends: function (element) {
+                        return $("#Gallery_image_name").is(":filled");
+                    }},
                       extension: "jpg|jpeg|png|bmp|gif",
                       filesize: 2097152
                       }
@@ -120,11 +127,12 @@
                   },
                   messages: {
                     'Gallery[album_id]': "Please select the album name",
-                    'Gallery[image_name]': {required: 'Required!', filesize:'Must be less than 2 mb',extension: 'Please select the image  with a valid extension(jpg,jpeg,png,bmp,gif)'},
+                    'Gallery[image_name]': { filesize:'Must be less than 2 mb',extension: 'Please select the image  with a valid extension(jpg,jpeg,png,bmp,gif)'},
                     
                   }
 
     });
+
 
 
 }); 
