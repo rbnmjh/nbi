@@ -38,7 +38,8 @@ class Partner extends CActiveRecord
 		return array(
 			array('name', 'required'),
 			array('name', 'length', 'max'=>255),
-			array('image', 'length', 'max'=>45),
+			array('image', 'length', 'max'=>255),
+			array('image', 'file', 'types'=>'jpg,png,jpeg,gif', 'allowEmpty'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, image', 'safe', 'on'=>'search'),

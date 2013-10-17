@@ -2,7 +2,7 @@
    <?php $this->renderPartial('//blocks/admin_menu'); ?>
    <div class="center_content">
       <div class="right_content">
-         <h2>Menu > Add images:</h2>
+         <h2>Gallery > Add images:</h2>
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){

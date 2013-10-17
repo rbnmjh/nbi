@@ -70,6 +70,7 @@
                                     <td>
                                        <?php
                                           echo $form->textField($media, 'name', array('class' => 'required text_area', 'maxlength' => '100'));
+                                          echo $form->error($media,'name');
                                        ?>
                                     </td>
                                  </tr>
@@ -79,6 +80,7 @@
                                     <td>
                                        <?php
                                           echo $form->textArea($media, 'content', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));
+                                          echo $form->error($media,'content');
                                        ?>
                                     </td>
                                  </tr>
@@ -88,6 +90,7 @@
                                     <td>
                                        <?php
                                           echo $form->radioButtonList($media, 'status', array( '0' => 'unpublished', '1' => 'published'),array('separator'=>''));
+                                          echo $form->error($media,'status');
                                        ?>
                                     </td>
                                  </tr>
