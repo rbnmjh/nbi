@@ -96,7 +96,7 @@ class Page extends CActiveRecord
 public function behaviors(){
   return array(
     'sluggable' => array(
-      'class'=>'ext.behaviors.SluggableBehavior.SluggableBehavior',
+      'class'=>'ext.SluggableBehavior.SluggableBehavior',
       'columns' => array('page_title'),
       'unique' => true,
       'update' => true,
