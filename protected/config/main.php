@@ -44,12 +44,13 @@ return array(
 			'caseSensitive' => false,
 			'rules'=>array(
                 '<controller:admin>/<action:\w+>/<id:\d+>' => 'admin/admin/<action>',
-                '<controller:admin>/<action:\w+>' => 'admin/admin/<action>',  
+                '<controller:admin>/<action:\w+>' => 'admin/admin/<action>',
+                //'<controller:gii>/<action:\w+>' => 'gii/<action>',  
 
        			'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>/<slug:[\w-]+>' => '<controller>/<action>',
+				'<controller:page>/<action:\w+>/<slug:[\w-]+>' => '<controller>/<action>',
 			),
 		),
 		'db'=>array(
