@@ -68,6 +68,7 @@
                                  <tr>
                                     <td><label for="#">Image File<span>*</span></label></td>
                                     <td>
+                                      <?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/gallery/'.$gallery->image_name, 'gallery',array("height"=>100, "width"=>100)); ?>
                                        <?php
                                           echo $form->fileField($gallery, 'image_name', array('size' => '10', 'class' => 'required text_area'));
                                        ?>

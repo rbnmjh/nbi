@@ -173,9 +173,27 @@ class AdminController extends Controller {
 
    public function actionListGallery() {
       if ($this->checkLogin()) {
-         $gallery = Gallery::model()->with('album')->findAllByAttributes(array('is_active' => 1));
-         $data['gallery'] = $gallery;
-         $this->render('listGallery', $data);
+
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'g';
+            $criteria->condition = 'is_active = 1';
+            $criteria->order = 'g.id DESC';
+            $criteria->with = array('album');
+            $count=Gallery::model()->count($criteria);
+            $pages=new CPagination($count);
+
+               // results per page
+            $pages->pageSize=2;
+            $pages->applyLimit($criteria);
+            $models = Gallery::model()->findAll($criteria);
+
+            $this->render('listGallery', array(
+               'gallery' => $models,
+               'pages' => $pages
+            ));
+         //$gallery = Gallery::model()->with('album')->findAllByAttributes(array('is_active' => 1));
+         ///$data['gallery'] = $gallery;
+         ///$this->render('listGallery', $data);
       }else {
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
@@ -525,20 +543,28 @@ public function actionDeletePage($id) {
 
 public function actionAddAlbum(){
     if ($this->checkLogin()) {
-      $album = new Album();
-      $data['album'] = $album;
-      if(isset($_POST['Album'])){
-          $album->attributes = $_POST['Album'];
-             if($album->save()){
-               Yii::app()->user->setFlash('message', "Data saved!");
+       if (isset($_POST['Album'])) {
+            $album = new Album();
+            $album->attributes = $_POST['Album'];
+            $uploaded_files = CUploadedFile::getInstance($album, 'image_name');
+            if ($album->save()) {
+               if(!empty($uploaded_files)){
+               $tmp = explode('.', $uploaded_files);
+               $file_extension = strtolower(end($tmp));
+               $file_name = Common::generate_filename() . '.' . $file_extension;
+               $uploaded_files->saveAs("uploads/album/$file_name");
+               $album->image_name = $file_name;
+               $album->update();
+               }
+                Yii::app()->user->setFlash('message', "Data saved!");
                $this->redirect(Yii::app()->request->baseUrl.'/admin/listAlbum');
-            }else{
-          $data['fail_msg'] = 'Fail to add an album.';
-
-             }
-      }
-   
-   
+               
+            }else {
+               $data['fail_msg'] = 'Fail to add an album.';
+            }
+         }
+      $album = new Album();
+      $data['album'] = $album;   
    $this->render('addAlbum',$data);
    }
    else {
@@ -560,15 +586,31 @@ public function actionEditAlbum($id){
 
    if ($this->checkLogin()) {
          $album = Album::model()->findByPk($id);
+
          if(!empty($album)){
             if(isset($_POST['Album'])){
-               $album->attributes = $_POST['Album'];
-               if($album->save())
-               $this->redirect(Yii::app()->request->baseUrl . '/admin/listAlbum');
-            else
-            $data['fail_msg'] = 'Fail to edit an album.';
-
-            }
+                  $old_file=$album->attributes['image_name'];
+                  $album->attributes = $_POST['Album'];
+                  $album->image_name=$old_file;
+                  $uploaded_files= CUploadedFile::getInstance($album, 'image_name');
+                  if ($album->save()) {
+                       if(!empty($uploaded_files)){ // check if uploaded file is set or not
+                           $tmp = explode('.', $uploaded_files);
+                           $file_extension = strtolower(end($tmp));
+                           $file_name = Common::generate_filename() . '.' . $file_extension;
+                           $uploaded_files->saveAs('uploads/album/'.$file_name);
+                           $album->image_name = $file_name;
+                           $album->update();
+                           if($old_file!='' && file_exists('uploads/album/'. $old_file))
+                              unlink('uploads/album/'. $old_file);
+                     }
+                     Yii::app()->user->setFlash('message', "Data updated!");
+                     $this->redirect(Yii::app()->request->baseUrl.'/admin/listAlbum');
+            
+                  }else {
+                     $data['fail_msg'] = 'Fail to edit album.';
+                  }
+                }
          $data['album'] = $album;
          $this->render('editAlbum', $data);
 
@@ -587,9 +629,30 @@ public function actionEditAlbum($id){
 
 public function actionDeleteAlbum($id) {
       if ($this->checkLogin()) {
-         $album = Album::model()->findByPk($id);
+         $album = Album::model()->with('galleries')->findByPk($id);
+         $gallery_list=$album->galleries;
+         $gallery_image_name_list=array();
+         foreach ($gallery_list as $key => $value) {            
+            $gallery_image_name_list[]=$value->attributes['image_name'];
+         }
+         $old_file=$album->attributes['image_name'];
          if (isset($album)) {
-            $album->delete();
+            if($album->delete()){
+               $old_file=$album->attributes['image_name'];
+
+               if($old_file!='' && file_exists('uploads/album/'. $old_file))
+                  unlink('uploads/album/'. $old_file);
+                if(!empty($gallery_image_name_list)){
+                  foreach ($gallery_image_name_list as $gal_img) {
+                     if($gal_img!='' && file_exists('uploads/gallery/'. $gal_img)){
+                            unlink('uploads/gallery/'. $gal_img);
+                     }
+                  }
+               }
+               
+
+            }
+            
          }
          $this->redirect(Yii::app()->request->baseUrl . '/admin/listAlbum');
       }else {

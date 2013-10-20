@@ -14,6 +14,7 @@
                   <tr>
                      <th>#</th>
                      <th align="left"><strong>Title</strong></th>
+                     <th align="left">image</th>
                      <th align="left">status</th>
                      <th align="left" width="90">Action</th>
                   </tr>
@@ -24,8 +25,9 @@
                   <tr>
                      <td align="center"><?php echo $count++; ?></td>
                      <td><?php echo $item->album_name; ?></td>
-                     <td><?php if($item->status==0)echo 'unpublished'; 
-                               elseif($item->status==1)echo 'published';
+                     <td><?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/album/'.$item->image_name, 'album',array("height"=>80, "width"=>80)); ?></td>
+                     <td><?php if($item->status=='0')echo 'unpublished'; 
+                               elseif($item->status=='1')echo 'published';
                          ?>
                       </td>   
                      <td>
@@ -36,7 +38,7 @@
                   </tr>
                   <?php } ?>
                   <tr>
-                     <td colspan="3"> <strong>1</strong>&nbsp;|&nbsp;</td>
+                     <td colspan="4"> <strong>1</strong>&nbsp;|&nbsp;</td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl ?>/admin/addAlbum">
                            <strong>Add New</strong>
