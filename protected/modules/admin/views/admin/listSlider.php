@@ -3,6 +3,12 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Slider > List sliders:</h2>
+         <?php if(Yii::app()->user->hasFlash('message')):?>
+             <div class="info">
+             <?php echo Yii::app()->user->getFlash('message'); ?>
+            </div>
+      <?php endif; ?>
+
          <div class="admin-setting">
             <table class="adminlist">
                <tbody>
@@ -10,7 +16,7 @@
                      <th>#</th>
                      <th align="left"><strong>Title</strong></th>
                      <th align="left">Image Name</th>
-                     <th align="left" width="50">Action</th>
+                     <th align="left" width="90">Action</th>
                   </tr>
                   <?php 
                      $count = 1;
@@ -19,8 +25,9 @@
                   <tr>
                      <td align="center"><?php echo $count++; ?></td>
                      <td><?php echo $slider->title; ?></td>
-                     <td><a href="<?php echo Yii::app()->request->baseUrl.'/uploads/'.$slider->image_name; ?>" target="_blank" style="color:#333333;"><?php echo $slider->image_name; ?></a></td>   
+                     <td><a href="<?php echo Yii::app()->request->baseUrl.'/uploads/slider'.$slider->image_name; ?>" target="_blank" style="color:#333333;"><?php echo $slider->image_name; ?></a></td>   
                      <td>
+                        <a href="<?php echo Yii::app()->request->baseUrl.'/admin/EditSlider/'.$slider->id; ?>">Edit</a>&nbsp; &nbsp;
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/DeleteSlider/'.$slider->id; ?>">Delete</a>
                      </td>
                   </tr>

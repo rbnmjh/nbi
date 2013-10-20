@@ -67,6 +67,8 @@
                                        <?php
                                           echo $form->textArea($gallery, 'image_name', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));
                                        ?>
+                                       
+
                                     </td>
                                  </tr>
                                  

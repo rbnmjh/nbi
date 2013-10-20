@@ -43,6 +43,7 @@ class Slider extends CActiveRecord
 			array('title, image_name', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
+			array('image_name', 'file', 'types'=>'jpg,jpeg,png,bmp,gif','on'=>'update', 'on'=>'insert'),
 			array('id, title, image_name, upload_date, is_active', 'safe', 'on'=>'search'),
 		);
 	}

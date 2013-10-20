@@ -60,15 +60,18 @@ class AdminController extends Controller {
             $slider->is_active = 1;
             $date = new DateTime();
             $slider->upload_date = $date->format("Y-m-d");
-            $slider->image_name = CUploadedFile::getInstance($slider, 'image_name');
+            $uploaded_files = CUploadedFile::getInstance($slider, 'image_name');
             if ($slider->save()) {
-               $tmp = explode('.', $slider->image_name);
+               if(!empty($uploaded_files)){
+               $tmp = explode('.', $uploaded_files);
                $file_extension = strtolower(end($tmp));
                $file_name = Common::generate_filename() . '.' . $file_extension;
-               $slider->image_name->saveAs("uploads/$file_name");
+               $uploaded_files->saveAs("uploads/slider/$file_name");
                $slider->image_name = $file_name;
-               $slider->update();
-               $data['success_msg'] = 'slider added successfully.';
+               $slider->save();
+               }
+               Yii::app()->user->setFlash('message', "Data saved!");
+               $this->redirect(Yii::app()->request->baseUrl.'/admin/listSlider');
             }else{
                $data['fail_msg'] = 'Fail to add slider.';
             }
@@ -80,6 +83,48 @@ class AdminController extends Controller {
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
    }
+   public function actionEditSlider($id){
+      if ($this->checkLogin()) {
+         $slider = Slider::model()->findByPk($id);
+            if(!empty($slider)){
+               if(isset($_POST['Slider'])){
+                  $old_file=$slider->attributes['image_name'];
+                  $slider->attributes = $_POST['Slider'];
+                  $slider->image_name=$old_file;
+                  $uploaded_files= CUploadedFile::getInstance($slider, 'image_name');
+                  if ($slider->save()) {
+                       if(!empty($uploaded_files)){ // check if uploaded file is set or not
+                           $tmp = explode('.', $uploaded_files);
+                           $file_extension = strtolower(end($tmp));
+                           $file_name = Common::generate_filename() . '.' . $file_extension;
+                           $uploaded_files->saveAs('uploads/slider/'.$file_name);
+                           $slider->image_name = $file_name;
+                           $slider->update();
+                           if($old_file!='' && file_exists('uploads/slider/'. $old_file))
+                              unlink('uploads/slider/'. $old_file);
+                     }
+                     Yii::app()->user->setFlash('message', "Data updated!");
+                     $this->redirect(Yii::app()->request->baseUrl.'/admin/listSlider');
+            
+                  }else {
+                     $data['fail_msg'] = 'Fail to edit Slider.';
+                  }
+                }
+         $data['slider'] = $slider;
+         $this->render('editSlider', $data);
+
+         }
+         else{
+             Yii::app()->user->setFlash('message', "Unable to edit requested page.");
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/listSlider');
+         }        
+        
+      }
+    else{
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+
+}
 
    public function actionAddGallery() {
       if ($this->checkLogin()) {
@@ -141,7 +186,7 @@ class AdminController extends Controller {
                      $this->redirect(Yii::app()->request->baseUrl.'/admin/listGallery');
             
                   }else {
-                     $data['fail_msg'] = 'Fail to edit publication.';
+                     $data['fail_msg'] = 'Fail to edit Gallery.';
                   }
                 }
          $data['gallery'] = $gallery;
@@ -161,8 +206,8 @@ class AdminController extends Controller {
 }
 
 
-   public function actionListSliders() {
-      if ($this->checkLogin()) {
+   public function actionListSlider() {
+      if ($this->checkLogin()){
          $sliders = Slider::model()->findAllByAttributes(array('is_active' => 1));
          $data['sliders'] = $sliders;
          $this->render('listSlider', $data);
@@ -185,14 +230,17 @@ class AdminController extends Controller {
       if ($this->checkLogin()) {
          $slider = Slider::model()->findByPk($id);
          if (isset($slider)) {
-            if (file_exists('uploads/' . $slider->image_name)) unlink('uploads/' . $slider->image_name);
+            
 
             $slider->delete();
+             if ($slider->attributes['image_name']!='' && file_exists('uploads/slider/' . $slider->attributes['image_name'])) {
+                            unlink('uploads/slider/' . $slider->attributes['image_name']);
          }
 
-         $this->redirect(Yii::app()->request->baseUrl . '/admin/ListSliders');
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/ListSlider');
       }else {
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         }
       }
    }
 

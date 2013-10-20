@@ -27,6 +27,7 @@
               ));
 
             ?>
+            
                <table cellspacing="0" cellpadding="5" border="0" width="100%">
                   <tbody>
                      <tr>
@@ -37,10 +38,10 @@
                                     <th colspan="2">Add Partner Images:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Title<span>*</span></label></td>
+                                    <td><label for="#">Name<span>*</span></label></td>
                                     <td>
                                        <?php
-                                          echo $form->textField($partner, 'name', array('class' => 'required text_area', 'maxlength' => '100'));
+                                          echo $form->textField($partner, 'name', array('class' => 'text_area', 'maxlength' => '100'));
                                        ?>
                                     </td>
                                  </tr>
@@ -76,3 +77,31 @@
    </div> 
    <div class="clear"></div>
 </div>
+<script>
+  $(function(){
+/*    $.validator.addMethod('filesize', function(value, element, param) {
+    
+    return this.optional(element) || (element.files[0].size <= param) 
+});*/
+    $.validator.addMethod('empty', function(value, element) {
+        return (value === '');
+    }, "This field must remain empty!");
+
+  $("#partner_form").validate({
+    errorElement: "div",
+    errorPlacement: function(error, element) {
+        element.after(error);
+    },
+                  rules: {                  
+                  'Partner[image]': "required",                
+                },
+                messages:{
+                  'Partner[image]': "Field required",
+                }
+
+    });
+
+
+
+}); 
+</script> 

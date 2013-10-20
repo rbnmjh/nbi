@@ -14,7 +14,7 @@
                   <li><span class="top"><a href="#">Slider</a></span>
                      <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 60px;">
                         <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/addSlider">Add slider</a></span></li>
-                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/listSliders">List slider</a></span></li>
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/listSlider">List slider</a></span></li>
                      </ul>
                   </li>
                   <li><span class="top"><a href="#">Gallery</a></span>

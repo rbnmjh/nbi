@@ -37,7 +37,7 @@
                                     <th colspan="2">Edit Partner Images:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Title<span>*</span></label></td>
+                                    <td><label for="#">Name<span>*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($partner, 'name', array('class' => 'required text_area', 'maxlength' => '100'));
@@ -50,6 +50,7 @@
                                  <tr>
                                     <td>&nbsp;Image File:&nbsp;</td>
                                     <td>
+                                      <?php echo CHtml::image(Yii::app()->baseUrl.'/uploads/partner/' .$partner->image,'partner',array("height"=>100, "width"=>100));?>
                                        <?php
                                           echo $form->fileField($partner, 'image', array('size' => '10', 'class' => 'required text_area'));
                                        ?>
@@ -76,3 +77,44 @@
    </div> 
    <div class="clear"></div>
 </div>
+<script>
+  $(function(){
+/*    $.validator.addMethod('filesize', function(value, element, param) {
+    
+    return this.optional(element) || (element.files[0].size <= param) 
+});*/
+    $.validator.addMethod('empty', function(value, element) {
+        return (value === '');
+    }, "This field must remain empty!");
+
+  $("#partner_form").validate({
+    errorElement: "div",
+    errorPlacement: function(error, element) {
+        element.after(error);
+    },
+                  rules: {
+                  
+                  'Partner[name]': "required",
+                  /*'Gallery[image_name]':{
+                     required: {
+                    depends: function (element) {
+                        return $("#Gallery_image_name").is(":filled");
+                    }},
+                      extension: "jpg|jpeg|png|bmp|gif",
+                      filesize: 2097152
+                      }
+                  
+                  },
+                  messages: {
+                    'Gallery[album_id]': "Please select the album name",
+                    'Gallery[image_name]': { filesize:'Must be less than 2 mb',extension: 'Please select the image  with a valid extension(jpg,jpeg,png,bmp,gif)'},
+                    
+                  }*/
+                }
+
+    });
+
+
+
+}); 
+</script> 

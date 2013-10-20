@@ -30,7 +30,7 @@
    <?php $this->renderPartial('//blocks/admin_menu'); ?>
    <div class="center_content">
       <div class="right_content">
-         <h2>Menu > Add Sliders:</h2>
+         <h2>Slider > Add Sliders:</h2>
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){
@@ -62,7 +62,7 @@
                            <table class="adminform">
                               <tbody>
                                  <tr>
-                                    <th colspan="2">Edit contact information:</th>
+                                    <th colspan="2">Add Slider:</th>
                                  </tr>
                                  <tr>
                                     <td><label for="#">Title<span>*</span></label></td>
@@ -76,18 +76,11 @@
                                     <td><label for="#">Image name<span>*</span></label></td>
                                     <td>
                                        <?php
-                                          echo $form->textField($slider, 'image_name', array('class' => 'required text_area', 'maxlength' => '100'));
+                                          echo $form->fileField($slider, 'image_name', array('class' => 'required text_area', 'maxlength' => '100'));
                                        ?>
                                     </td>
                                  </tr>
-                                 <tr>
-                                    <td><label for="#">Upload data<span>*</span></label></td>
-                                    <td>
-                                       <?php
-                                          echo $form->textField($slider, 'upload_date', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));
-                                       ?>
-                                    </td>
-                                 </tr>
+                                 
                                  
                                  <tr>
                                     <td>&nbsp;</td>
