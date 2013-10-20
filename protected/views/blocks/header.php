@@ -13,7 +13,7 @@
 		<nav id="nav">
 			<ul>
 				<?php $home_url =Yii::app()->baseUrl;
-					  $about_url=Yii::app()->baseUrl.'page/pages/about-us';
+					  $about_url=Yii::app()->baseUrl.'/page/pages/about-us';
 				 ?>
 				<li><a href="<?php echo $home_url;?>" title="Home" class="active">Home</a></li>				
 				<li> <a href="<?php echo $about_url;?>" title="About">About</a></li>
