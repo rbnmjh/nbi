@@ -42,10 +42,15 @@
                         <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListPages">List Pages</a></span></li>
                      </ul>
                   </li>
-                  <li><span class="top"><a href="#">Publications</a></span>
+                  <li><span class="top"><a href="#">Partner</a></span>
                      <ul style="overflow: hidden; visibility: visible; opacity: 1; width: 177px; height: 60px;">
-                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddPublications">Add Publications</a></span></li>
-                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListPublications">List Publications</a></span></li>
+
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddPartner">Add Partner</a></span></li>
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListPartner">List Partner</a></span></li>
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddPub">Add Publications</a></span></li>
+                        <li class=""><span class="top"><a href="<?php echo Yii::app()->request->baseUrl ?>/admin/ListPub">List Publications</a></span></li>
+
+
                      </ul>
                   </li>
                   <li><span class="top"><a href="#">Media</a></span>

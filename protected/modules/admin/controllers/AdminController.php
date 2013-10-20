@@ -487,9 +487,8 @@ public function actionDeletePage($id) {
                   $this->redirect(Yii::app()->request->baseUrl . '/admin/ListBlogs');
                }
                else {
-
-                  $data['fail_msg'] = 'Fail to add blog.';
-                 
+                  Yii::app()->user->setFlash('msg','Fail to add blog.');
+                  $this->redirect(Yii::app()->request->baseUrl . '/admin/addBlogs');
                }
          }
             $blogs = new Blog();
@@ -506,7 +505,7 @@ public function actionDeletePage($id) {
          $blogs = Blog::model()->findByPk($id);
             if(isset($_POST['Blog'])){
                $blogs->attributes = $_POST['Blog'];
-                if ($blogs->update()){
+                if ($blogs->save()){
                   Yii::app()->user->setFlash('msg','Blog updated successfully.');
                   $this->redirect(Yii::app()->request->baseUrl . '/admin/ListBlogs');
                }
@@ -763,8 +762,92 @@ public function actionDeletePub($id) {
       }
    }
 
+public function actionAddPartner() {
+      if ($this->checkLogin()) {
+         $partner = new Partner();
+         if (isset($_POST['Partner'])){
+           $partner->attributes = $_POST['Partner'];
+           $partner->image = CUploadedFile::getInstance($partner, 'image');
+            if ($partner->save()) {
+               $tmp = explode('.', $partner->image);
+               $file_extension = strtolower(end($tmp));
+               $file_name = Common::generate_filename() . '.' . $file_extension;
+               $partner->image->saveAs("uploads/partner/$file_name");
+               $partner->image = $file_name;
+               $partner->update();
+               Yii::app()->user->setFlash('msg','Image added successfully.');
+               $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPartner');
+            }else {
+               Yii::app()->user->setFlash('msg','Fail to add image.');
+               $this->redirect(Yii::app()->request->baseUrl . '/admin/addPartner');
+            }
+         }
 
+         
+         $data['partner'] = $partner;
+         $this->render('addPartner', $data);
+      }else {
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+   }
 
+   public function actionListPartner(){
+      if ($this->checkLogin()) {
+         $partner = Partner::model()->findAll();
+         $data['partner']=$partner;
+         $this->render('listPartner',$data);
+      }
+      else{
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+   }
+   public function actionDeletePartner($id) {
+      if ($this->checkLogin()) {
+         $partner = Partner::model()->findByPk($id);
+         if (isset($partner)) {
+            if (file_exists('uploads/partner/' . $partner->image)) unlink('uploads/partner/' . $partner->image);
+               $partner->delete();
+               Yii::app()->user->setFlash('msg','Image deleted successfully');
+         }
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPartner');
+      }else {
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+   }
+
+   public function actionEditPartner($id){
+      if ($this->checkLogin()) {
+         $partner = Partner::model()->findByPk($id);
+            if(isset($_POST['Partner'])){
+               $old_image=$partner->attributes['image'];
+               $partner->attributes = $_POST['Partner'];
+               if ($partner->save()){
+
+                  $uploaded_image=CUploadedFile::getInstance($partner, 'image');
+                  $tmp = explode('.',  $uploaded_image);
+                  $file_extension = strtolower(end($tmp));
+                  $file_name = Common::generate_filename() . '.' . $file_extension;
+                  $uploaded_image->saveAs("uploads/partner/$file_name");
+                  $partner->image = $file_name;
+                  $partner->update();
+                  if ($old_image!='' && file_exists('uploads/partner/' . $old_image)) 
+                     unlink('uploads/partner/' . $old_image);
+                  Yii::app()->user->setFlash('msg','Partner updated successfully');
+                  $this->redirect(Yii::app()->request->baseUrl . '/admin/listPartner');
+               }
+               else{
+                  Yii::app()->user->setFlash('msg','Fail to update partner.');
+               }
+            }
+            $data['partner'] = $partner;
+            $this->render('editPartner', $data);
+      }
+         else{
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }
+   }
+}
+   
 
 
 
@@ -813,4 +896,3 @@ public function actionViewSlider(){
 	$this->render('viewSlider',$data);
 }
 */
-}
