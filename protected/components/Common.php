@@ -11,9 +11,9 @@ Class Common {
     * @return type formatted array
     */
    public static function array_debug($value) {
-      echo "<pre>sdfdsfgfdsgfd";
+      echo "<pre>";
       print_r($value);
-      echo "</preffdafasdfs";
+      echo "</pre>";
    }
 
    /**
