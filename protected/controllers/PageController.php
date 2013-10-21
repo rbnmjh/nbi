@@ -34,4 +34,25 @@ class PageController extends Controller
 			$data['page']=$menu_page->attributes;
 			$this->render('menu',$data);
 		}
+
+		public function actionNews($id){
+			$this->layout = '//layouts/home';
+			$new_page = News::model()->findByAttributes(array('id'=>$id,'status'=>'1'));			
+			if(empty($new_page)){
+				 throw new CHttpException(404,'The specified page cannot be found');
+			}
+			$data['page']=$new_page->attributes;
+			$this->render('news',$data);
+		}
+
+
+		public function actionBlogs($id){
+			$this->layout = '//layouts/home';
+			$new_page = Blog::model()->findByAttributes(array('id'=>$id,'status'=>'1'));			
+			if(empty($new_page)){
+				 throw new CHttpException(404,'The specified page cannot be found');
+			}
+			$data['page']=$new_page->attributes;
+			$this->render('blogs',$data);
+		}
 }

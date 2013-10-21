@@ -42,6 +42,8 @@ class Album extends CActiveRecord
 			array('album_name', 'required'),
 			array('album_name', 'length', 'max'=>255),
 			array('status', 'length', 'max'=>45),
+			array('image_name', 'length', 'max'=>255),
+			array('image_name', 'file', 'types'=>'jpg,jpeg,png,bmp,gif','on'=>'update', 'on'=>'insert'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, album_name, status', 'safe', 'on'=>'search'),

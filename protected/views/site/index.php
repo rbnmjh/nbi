@@ -5,7 +5,6 @@
 <div class="main_content">
 	<div class="page_wrap container_10">
 		<div class="right_content grid_3">
-<?php echo $name['name'];?>
 			<?php $this->renderPartial('//blocks/right_bar'); ?>
 		</div><!-- end right_content -->
 		<div class="left_content grid_7">

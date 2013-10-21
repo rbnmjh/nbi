@@ -18,8 +18,23 @@ return array(
 		*/
 		// uncomment the following to use a MySQL database
 		
-		'db'=>array(
+		'db' => array(
 			'connectionString' => 'mysql:host=localhost;dbname=nbi',
+			'emulatePrepare' => true,
+			'username' => 'root',
+			'password' => '',
+			'charset' => 'utf8',
+		),
+		'staging' => array(
+			'class' => 'CDbConnection',
+			'connectionString' => 'mysql:host=localhost;dbname=db_frankly',
+			'emulatePrepare' => true,
+			'username' => 'root',
+			'password' => '',
+			'charset' => 'utf8',
+		),
+		'production' => array(
+			'connectionString' => 'mysql:host=localhost;dbname=db_frankly',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => '',

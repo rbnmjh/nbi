@@ -5,6 +5,32 @@
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
+require_once(dirname(__FILE__) . '/../../env.php');
+// uncomment the following to define a path alias
+// Yii::setPathOfAlias('local','path/to/local-folder');
+
+if (environment_setting() == "development") {
+	$database = 'nbi';
+	$username = 'root';
+	$password = '';
+	$admin_email = 'mjsanish@yahoo.com';
+	$connectionString = 'mysql:host=localhost;dbname=' . $database;
+     $is_live = false;
+} else if (environment_setting() == "staging") {
+	$database = '';
+     $username = '';
+     $password = '';
+     $admin_email = 'mjsanish@yahoo.com';
+     $connectionString = 'mysql:host=localhost;dbname=' . $database;
+     $is_live = false;
+} else if (environment_setting() == 'production') {
+	$database = '';
+	$username = '';
+	$password = '';
+	$admin_email = 'mjsanish@yahoo.com';
+	$connectionString = 'mysql:host=localhost;dbname=' . $database;
+     $is_live = true;
+}
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'NBI Nepal',
@@ -44,16 +70,17 @@ return array(
 			'caseSensitive' => false,
 			'rules'=>array(
                 '<controller:admin>/<action:\w+>/<id:\d+>' => 'admin/admin/<action>',
-                '<controller:admin>/<action:\w+>' => 'admin/admin/<action>',  
+                '<controller:admin>/<action:\w+>' => 'admin/admin/<action>',
+                //'<controller:gii>/<action:\w+>' => 'gii/<action>',  
 
        			'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>/<slug:[\w-]+>' => '<controller>/<action>',
+				'<controller:page>/<action:\w+>/<slug:[\w-]+>' => '<controller>/<action>',
 			),
 		),
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=nbi',
+			'connectionString' => $connectionString,
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => '',
