@@ -208,9 +208,23 @@ class AdminController extends Controller {
 
    public function actionListSlider() {
       if ($this->checkLogin()){
-         $sliders = Slider::model()->findAllByAttributes(array('is_active' => 1));
-         $data['sliders'] = $sliders;
-         $this->render('listSlider', $data);
+         $criteria = new CDbCriteria();
+            $criteria->alias = 'slider';
+            $criteria->condition = 'is_active = 1';
+            $criteria->order = 'slider.id DESC';
+            $count=Slider::model()->count($criteria);
+            $pages=new CPagination($count);
+            $pages->pageSize=2;     // results per page
+            $pages->applyLimit($criteria);
+            $models = Slider::model()->findAll($criteria);
+
+            $this->render('listSlider', array(
+               'sliders' => $models,
+               'pages' => $pages
+            ));
+         //$sliders = Slider::model()->findAllByAttributes(array('is_active' => 1));
+         //$data['sliders'] = $sliders;
+         //$this->render('listSlider', $data);
       }else {
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
@@ -228,7 +242,7 @@ class AdminController extends Controller {
             $pages=new CPagination($count);
 
                // results per page
-            $pages->pageSize=2;
+            $pages->pageSize=4;
             $pages->applyLimit($criteria);
             $models = Gallery::model()->findAll($criteria);
 
@@ -414,12 +428,39 @@ public function actionDeletePage($id) {
          if (isset($page)) {
             $page->delete();
          }
+         Yii::app()->user->setFlash('msg', "Page deleted successfully.");
          $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPages');
       }else {
+         Yii::app()->user->setFlash('msg', "Unable to delete page.");
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
    }
 
+   public function actionAddMedia() {
+      if ($this->checkLogin()) {
+         if (isset($_POST['Media'])) {
+            $media = new Media();
+            if($_POST['Media']['status']==''){
+               $_POST['Media']['status']=1;
+            }
+            $media->attributes = $_POST['Media'];
+               if ($media->save()) {
+                  Yii::app()->user->setFlash('msg','Media added successfully.');
+                  $this->redirect(Yii::app()->request->baseUrl . '/admin/ListMedia');
+               }
+               else {
+                  $data['fail_msg'] = 'Fail to add media.';
+               }
+         }
+            $media = new Media();
+            $data['media'] = $media;
+            $this->render('addMedia', $data);
+      }
+         else {
+         $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+      }      
+   }
+   
    public function actionEditMedia($id){
      if ($this->checkLogin()) {
          $media = Media::model()->findByPk($id);
@@ -465,16 +506,16 @@ public function actionDeletePage($id) {
       if ($this->checkLogin()) {
          if (isset($_POST['News'])) {
             $news = new News();
+            if($_POST['News']['status']==''){
+               $_POST['News']['status']=1;
+            }
             $news->attributes = $_POST['News'];
-
                if ($news->save()) {
                   Yii::app()->user->setFlash('msg','News added successfully.');
                   $this->redirect(Yii::app()->request->baseUrl . '/admin/ListNews');
                }
                else {
-
-                  $data['fail_msg'] = 'Fail to add News.';
-                 
+                  $data['fail_msg'] = 'Fail to add News.';                 
                }
          }
             $news = new News();
@@ -528,15 +569,16 @@ public function actionDeletePage($id) {
       if ($this->checkLogin()) {
          if (isset($_POST['Blog'])) {
             $blogs = new Blog();
+            if($_POST['Blog']['status']==''){
+               $_POST['Blog']['status']=1;
+            }
             $blogs->attributes = $_POST['Blog'];
-
                if ($blogs->save()) {
                   Yii::app()->user->setFlash('msg','Blog added successfully.');
                   $this->redirect(Yii::app()->request->baseUrl . '/admin/ListBlogs');
                }
                else {
-                  Yii::app()->user->setFlash('msg','Fail to add blog.');
-                  $this->redirect(Yii::app()->request->baseUrl . '/admin/addBlogs');
+                   $data['fail_msg'] = 'Fail to add blog.';
                }
          }
             $blogs = new Blog();
@@ -592,6 +634,9 @@ public function actionAddAlbum(){
     if ($this->checkLogin()) {
        if (isset($_POST['Album'])) {
             $album = new Album();
+            if($_POST['Album']['status']==''){
+               $_POST['Album']['status']=1;
+            }
             $album->attributes = $_POST['Album'];
             $uploaded_files = CUploadedFile::getInstance($album, 'image_name');
             if ($album->save()) {
@@ -621,9 +666,23 @@ public function actionAddAlbum(){
 
 public function actionListAlbum(){
    if ($this->checkLogin()) {
-   $album = Album::model()->findAll();
-   $data['album']=$album;
-   $this->render('listAlbum',$data);
+      $criteria = new CDbCriteria();
+            $criteria->alias = 'album';
+            $criteria->condition = 'status= 1';
+            $criteria->order = 'album.id DESC';
+            $count=Album::model()->count($criteria);
+            $pages=new CPagination($count);
+            $pages->pageSize=4;     // results per page
+            $pages->applyLimit($criteria);
+            $models = Album::model()->findAll($criteria);
+
+            $this->render('listAlbum', array(
+               'album' => $models,
+               'pages' => $pages
+            ));
+   //$album = Album::model()->findAll();
+   //$data['album']=$album;
+   //$this->render('listAlbum',$data);
 }
  else{
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
@@ -829,9 +888,7 @@ public function actionAddPartner() {
                Yii::app()->user->setFlash('msg','Fail to add image.');
                $this->redirect(Yii::app()->request->baseUrl . '/admin/addPartner');
             }
-         }
-
-         
+         }         
          $data['partner'] = $partner;
          $this->render('addPartner', $data);
       }else {
@@ -853,7 +910,7 @@ public function actionAddPartner() {
       if ($this->checkLogin()) {
          $partner = Partner::model()->findByPk($id);
          if (isset($partner)) {
-            if (file_exists('uploads/partner/' . $partner->image)) unlink('uploads/partner/' . $partner->image);
+            if ($partner->attributes['image']!='' && file_exists('uploads/partner/' . $partner->image)) unlink('uploads/partner/' . $partner->image);
                $partner->delete();
                Yii::app()->user->setFlash('msg','Image deleted successfully');
          }
@@ -896,51 +953,3 @@ public function actionAddPartner() {
    }
 }
    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*public function actionDeletePage(){
-$pageId = $_GET['page_id'];
-$page = Page::model()->findByPk($pageId);
-	if($page->delete()){
-		$this->redirect(Yii::app()->request->baseUrl.'/admin/listPages');
-		
-		}
-	}
-	*/
-/*
-public function actionAddSlider(){
-	$slider = new Slider();
-	$data['slider'] = $slider;
-	if (isset($_POST['Slider'])){
-	  $slider->attributes = $_POST['Slider'];
-	  if ($slider->save()){
-		  $this->redirect(Yii::app()->request->baseUrl.'/admin/viewSlider');
-		  }else{
-			  $this->redirect(Yii::app()->request->baseUrl.'/admin/addSlider');
-			  }
-		}$this->render('addSlider',$data);
-	}
-
-public function actionViewSlider(){
-	$slider = Slider::model()->findAll();
-	$data['sliders']=$slider;
-	$this->render('viewSlider',$data);
-}
-*/

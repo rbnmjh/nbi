@@ -14,7 +14,8 @@
                   <tr>
                      <th width="35">#</th>
                      <th align="left"><strong>Title</strong></th>
-                     <th align="left"><strong>Description</strong></th>            
+                     <th align="left"><strong>Image Name</strong></th>
+                     <th align="left"><strong>Image</strong></th>            
                      <th align="left" width="100">Action</th>
                   </tr>
                   <?php 
@@ -25,6 +26,7 @@
                      <td align="center"><?php echo $count++; ?></td>
                      <td><?php echo $item->name; ?></td>
                      <td><?php echo $item->image; ?></td>
+                     <td><?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/partner/'.$item->image, 'item',array("height"=>80, "width"=>80)); ?></td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/editPartner/'.$item->id; ?>">Edit</a>&nbsp; &nbsp;
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/DeletePartner/'.$item->id; ?>">Delete</a>
@@ -33,7 +35,7 @@
                   </tr>
                   <?php } ?>
                   <tr>
-                     <td colspan="3"> <strong>1</strong>&nbsp;|&nbsp;</td>
+                     <td colspan="4"> <strong>1</strong>&nbsp;|&nbsp;</td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl ?>/admin/addPartner">
                            <strong>Add New</strong>

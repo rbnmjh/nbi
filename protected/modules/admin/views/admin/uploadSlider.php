@@ -3,6 +3,7 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Slider > Add slider:</h2>
+         <p class="note">Fields with <span class="required">*</span> are required.</p>
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){
@@ -37,17 +38,17 @@
                                     <th colspan="2">Add Slider Images:</th>
                                  </tr>
                                  <tr>
-                                    <td>Title</td>
+                                    <td>Name</td>
                                     <td>
                                        <?php
-                                          echo $form->textField($slider, 'title', array('class' => 'required text_area', 'maxlength' => '100'));
+                                          echo $form->textField($slider, 'title', array('class' => 'text_area', 'maxlength' => '100'));
                                        ?>
                                     </td>
                                  </tr>
                                  <tr>
                                  </tr>
                                  <tr>
-                                    <td>&nbsp;Image File:&nbsp;</td>
+                                    <td><label for="#">Image name<span>*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->fileField($slider, 'image_name', array('size' => '10', 'class' => 'required text_area'));
@@ -75,3 +76,23 @@
    </div> 
    <div class="clear"></div>
 </div>
+<script>
+  $(function(){
+    $.validator.addMethod('empty', function(value, element) {
+        return (value === '');
+    }, "This field must remain empty!");
+
+  $("#slider_form").validate({
+    errorElement: "div",
+    errorPlacement: function(error, element) {
+        element.after(error);
+    },
+                  rules: {                  
+                  'Slider[image_name]': "required",                
+                },
+                messages:{
+                  'Slider[image_name]': "Field required",
+                }
+    });
+}); 
+</script>

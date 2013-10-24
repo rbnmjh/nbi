@@ -79,10 +79,6 @@
 </div>
 <script>
   $(function(){
-/*    $.validator.addMethod('filesize', function(value, element, param) {
-    
-    return this.optional(element) || (element.files[0].size <= param) 
-});*/
     $.validator.addMethod('empty', function(value, element) {
         return (value === '');
     }, "This field must remain empty!");
@@ -98,10 +94,6 @@
                 messages:{
                   'Partner[image]': "Field required",
                 }
-
     });
-
-
-
 }); 
 </script> 

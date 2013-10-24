@@ -99,8 +99,10 @@ a, a:link, a:visited, a:active{
 				nav#nav ul li a:hover, nav#nav ul li a.active, a.read_more{
 					background:#06a0df;
 					text-shadow:1px 1px 0 rgba(0,0,0,.5);
-					color:#FFF
+					color:#FFF;
 				}
+
+
 		#logo h1 a{
 			float:left;
 			background:url(../images/logo.png) no-repeat left 12px;
@@ -110,9 +112,11 @@ a, a:link, a:visited, a:active{
 		}
 /* ------- 3. SLIDER  ------- */
 .slider{
-	width:100%;
+	width:1024px;
 	height:400px;
-	display:block
+	display:block;
+	margin:0 auto;
+	overflow: hidden;
 }
 /* ------- 4. MAIN_CONTENT ------- */
 .main_content{
@@ -171,12 +175,18 @@ a, a:link, a:visited, a:active{
 			.left_content .block_style_one{padding:20px;}
 			.left_content a.read_more{
 				float:right;
+				margin-top: 15px;
 				padding:5px 15px;
 				border-radius:4px;
 					-moz-border-radius:4px;
 					-webkit-border-radius:4px;
 					-ms-border-radius:4px;
-					-o-border-radius:4px;
+					-o-border-radius:4px;				
+			}
+			
+			.left_content a.read_more:hover{
+				color:#000;
+				background:#F7F7F7;
 			}
 			ul.gallery{
 				margin:0;
@@ -185,6 +195,7 @@ a, a:link, a:visited, a:active{
 				ul.gallery li {
 					float:left;
 					margin-right:19px;
+					margin-bottom: 10px;
 				}
 				ul.gallery li.last{margin-right:0}
 				ul.gallery li figure figcaption{
@@ -231,6 +242,10 @@ a, a:link, a:visited, a:active{
 							color:#afafaf
 						}
 						ul.list_blog li span.category span{margin-left:30px}
+
+						h1.album,h1.gallery{
+							padding-bottom:5px;
+						}
 
 /*-------- FOOTER -----------*/
 footer{

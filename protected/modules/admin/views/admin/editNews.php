@@ -42,7 +42,7 @@
             }
 
               $form = $this->beginWidget('CActiveForm', array(
-                'id'                     => 'edti_contact_form',
+                'id'                     => 'News_form',
                 'enableClientValidation' => true,
                 'enableAjaxValidation'   => false, //turn on ajax validation on the client side
                 'clientOptions'          => array(
@@ -114,3 +114,31 @@
    </div> 
    <div class="clear"></div>
 </div>
+<script>
+  $(function(){
+  $("#News_form").submit(function() {
+                        // update underlying textarea before submit validation
+                        tinyMCE.triggerSave();
+                }).validate({
+                        ignore: "",
+                        rules: {
+                                'News[title]': "required",                                
+                                'News[content]': "required"                                
+                        },                        
+                        messages:{
+                                'News[title]': "Field required",                                
+                                'News[content]': "Field required"                               
+                        },   
+                         errorElement: "div",
+                        errorPlacement: function(error, element) {
+                                // position error label after generated textarea
+                                if (element.is("textarea")) {
+                                        $('#News_content_parent').after(error);
+                                }
+                                else {
+                                        element.after(error);
+                                }
+                        }
+                });
+}); 
+</script>

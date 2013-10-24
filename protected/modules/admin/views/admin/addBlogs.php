@@ -23,7 +23,11 @@
 		template_external_list_url : "lists/template_list.js",
 		external_link_list_url : "lists/link_list.js",
 		external_image_list_url : "lists/image_list.js",
-		media_external_list_url : "lists/media_list.js"
+		media_external_list_url : "lists/media_list.js",
+     onchange_callback: function(editor) {
+                        tinyMCE.triggerSave();
+                        $("#" + editor.id).valid();
+                }
   });
 </script> 
 <div class="main_content"> 
@@ -31,7 +35,7 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Blogs > Add Blogs:</h2>
-          
+          <p class="note">Fields with <span class="required">*</span> are required.</p>
          <div class="admin-setting">
            <?php 
             if(isset($success_msg)){
@@ -42,8 +46,8 @@
             }
 
               $form = $this->beginWidget('CActiveForm', array(
-                'id'                     => 'edti_contact_form',
-                'enableClientValidation' => true,
+                'id'                     => 'blog_form',
+                'enableClientValidation' => false,
                 'enableAjaxValidation'   => false, //turn on ajax validation on the client side
                 'clientOptions'          => array(
                     'validateOnSubmit' => true,
@@ -68,10 +72,8 @@
                                  <tr>
                                     <td><label for="#">Title<span>*</span></label></td>
                                     <td>
-                                       <?php
-                                          
+                                       <?php                                          
                                           echo $form->textField($blogs, 'title', array('class' => 'required text_area', 'maxlength' => '100'));
-                                          echo $form->error($blogs,'title');
                                        ?>
                                     </td>
                                  </tr>
@@ -81,9 +83,7 @@
                                     <td>
                                        <?php
                                           echo $form->textArea($blogs, 'content', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));
-                                          echo $form->error($blogs, 'content');
-
-                                       ?>
+                                        ?>
                                     </td>
                                  </tr>
                                  
@@ -91,8 +91,7 @@
                                     <td><label for="#">Status<span>*</span></label></td>
                                     <td>
                                        <?php
-                                        echo $form->radioButtonList($blogs, 'status', array( '0' => 'unpublished', '1' => 'published'),array('separator'=>''));
-                                        echo $form->error($blogs,'status');
+                                        echo $form->radioButtonList($blogs, 'status', array( '0' => 'unpublished', '1' => 'published'),array('separator'=>'','class'=>'required status'));
                                        ?>
                                     </td>
                                  </tr>
@@ -101,7 +100,7 @@
                                  <tr>
                                     <td>&nbsp;</td>
                                     <td>
-                                       <?php echo CHtml::submitButton('submit', array('value' => 'Add')); ?>
+                                       <?php echo CHtml::submitButton('submit', array('value' => 'Add','class'=>'submit')); ?>
                                     </td>
                                  </tr>
                                  <tr>
@@ -119,3 +118,31 @@
    </div> 
    <div class="clear"></div>
 </div>
+<script>
+  $(function(){
+  $("#blog_form").submit(function() {
+                        // update underlying textarea before submit validation
+                        tinyMCE.triggerSave();
+                }).validate({
+                        ignore: "",
+                        rules: {
+                                'Blog[title]': "required",                                
+                                'Blog[content]': "required"                                
+                        },                        
+                        messages:{
+                                'Blog[title]': "Field required",                                
+                                'Blog[content]': "Field required"                               
+                        },   
+                         errorElement: "div",
+                        errorPlacement: function(error, element) {
+                                // position error label after generated textarea
+                                if (element.is("textarea")) {
+                                        $('#Blog_content_parent').after(error);
+                                }
+                                else {
+                                        element.after(error);
+                                }
+                        }
+                });
+}); 
+</script>

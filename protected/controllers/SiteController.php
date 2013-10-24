@@ -29,8 +29,8 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
 		
-		$data['name']= array('name'=>'sailendra shakya','address'=>'lalitpur sundhara');
-		$this->render('index',$data);
+		
+		$this->render('index');
 	}
 
 	/**

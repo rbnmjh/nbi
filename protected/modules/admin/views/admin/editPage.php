@@ -109,3 +109,45 @@
    </div> 
    <div class="clear"></div>
 </div>
+<script>
+  $(function(){
+    $.validator.addMethod('filesize', function(value, element, param) {
+    // param = size (en bytes) 
+    // element = element to validate (<input>)
+    // value = value of the element (file name)
+    return this.optional(element) || (element.files[0].size <= param) 
+});
+    $.validator.addMethod('empty', function(value, element) {
+        return (value === '');
+    }, "This field must remain empty!");
+
+  $("#gallary_form").validate({
+    errorElement: "div",
+    errorPlacement: function(error, element) {
+        element.after(error);
+    },
+                  rules: {
+                  
+                  'Gallery[album_id]': "required",
+                  'Gallery[image_name]':{
+                     required: {
+                    depends: function (element) {
+                        return $("#Gallery_image_name").is(":filled");
+                    }},
+                      extension: "jpg|jpeg|png|bmp|gif",
+                      filesize: 2097152
+                      }
+                  
+                  },
+                  messages: {
+                    'Gallery[album_id]': "Please select the album name",
+                    'Gallery[image_name]': { filesize:'Must be less than 2 mb',extension: 'Please select the image  with a valid extension(jpg,jpeg,png,bmp,gif)'},
+                    
+                  }
+
+    });
+
+
+
+}); 
+</script> 

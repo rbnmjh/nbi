@@ -42,7 +42,7 @@
             }
 
               $form = $this->beginWidget('CActiveForm', array(
-                'id'                     => 'edti_contact_form',
+                'id'                     => 'Media_form',
                 'enableClientValidation' => true,
                 'enableAjaxValidation'   => false, //turn on ajax validation on the client side
                 'clientOptions'          => array(
@@ -66,11 +66,10 @@
                                     <th colspan="2">Edit Media Content:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Media<span>*</span></label></td>
+                                    <td><label for="#">Title<span>*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($media, 'name', array('class' => 'required text_area', 'maxlength' => '100'));
-                                          echo $form->error($media,'name');
                                        ?>
                                     </td>
                                  </tr>
@@ -80,7 +79,6 @@
                                     <td>
                                        <?php
                                           echo $form->textArea($media, 'content', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));
-                                          echo $form->error($media,'content');
                                        ?>
                                     </td>
                                  </tr>
@@ -90,7 +88,6 @@
                                     <td>
                                        <?php
                                           echo $form->radioButtonList($media, 'status', array( '0' => 'unpublished', '1' => 'published'),array('separator'=>''));
-                                          echo $form->error($media,'status');
                                        ?>
                                     </td>
                                  </tr>
@@ -117,3 +114,31 @@
    </div> 
    <div class="clear"></div>
 </div>
+<script>
+  $(function(){
+  $("#Media_form").submit(function() {
+                        // update underlying textarea before submit validation
+                        tinyMCE.triggerSave();
+                }).validate({
+                        ignore: "",
+                        rules: {
+                                'Media[name]': "required",                                
+                                'Media[content]': "required"                                
+                        },                        
+                        messages:{
+                                'Media[name]': "Field required",                                
+                                'Media[content]': "Field required"                               
+                        },   
+                         errorElement: "div",
+                        errorPlacement: function(error, element) {
+                                // position error label after generated textarea
+                                if (element.is("textarea")) {
+                                        $('#Media_content_parent').after(error);
+                                }
+                                else {
+                                        element.after(error);
+                                }
+                        }
+                });
+}); 
+</script>

@@ -76,7 +76,7 @@ Class Common {
       return $slider_list;
    }
    
-   public static function getMenuList(){
+   /*public static function getMenuList(){
       $menus = MenusWine::model()->findAllByAttributes(array('type'=>'menu'));
       $menuList = array();
       foreach ($menus as $menu){
@@ -120,7 +120,7 @@ Class Common {
       }
 
       return $menuList;
-   }
+   }*/
    
    
    public static function getAboutUsData(){

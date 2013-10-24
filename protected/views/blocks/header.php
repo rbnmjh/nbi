@@ -1,7 +1,7 @@
 <div class="header_top">
 	<div class="page_wrap">
 		<ul class="social_icon">
-			<li><a href="#" title="Facebook">f</a></li>
+			<li><a href="https://www.facebook.com" title="Facebook">f</a></li>
 			<li><a href="#" title="Twitter">l</a></li>
 			<li><a href="#" title="Google+">g</a></li>
 			<li class="last" title="Linkedin"><a href="#">n</a></li>

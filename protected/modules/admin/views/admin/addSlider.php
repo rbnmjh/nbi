@@ -41,8 +41,8 @@
             }
 
             $form = $this->beginWidget('CActiveForm', array(
-                'id'                     => 'edti_contact_form',
-                'enableClientValidation' => true,
+                'id'                     => 'slider_form',
+                'enableClientValidation' => false,
                 'enableAjaxValidation'   => false, //turn on ajax validation on the client side
                 'clientOptions'          => array(
                     'validateOnSubmit' => true,
@@ -103,3 +103,23 @@
    </div> 
    <div class="clear"></div>
 </div>
+<script>
+  $(function(){
+    $.validator.addMethod('empty', function(value, element) {
+        return (value === '');
+    }, "This field must remain empty!");
+
+  $("#slider_form").validate({
+    errorElement: "div",
+    errorPlacement: function(error, element) {
+        element.after(error);
+    },
+                  rules: {                  
+                  'Slider[image_name]': "required",                
+                },
+                messages:{
+                  'Slider[image_name]': "Field required",
+                }
+    });
+}); 
+</script> 

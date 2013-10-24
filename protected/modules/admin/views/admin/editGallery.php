@@ -77,7 +77,7 @@
                                  <tr>
                                     <td>&nbsp;
                                     <td>
-                                       <input type="submit" value="Submit">
+                                       <input type="submit" value="Update">
                                     </td>
                                  </tr>
                                  <tr>

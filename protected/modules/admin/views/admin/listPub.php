@@ -2,7 +2,7 @@
    <?php $this->renderPartial('//blocks/admin_menu'); ?>
    <div class="center_content">
       <div class="right_content">
-         <h2>Menu > List Publication:</h2>
+         <h2>Publication > List Publication:</h2>
          <?php if(Yii::app()->user->hasFlash('message')):?>
              <div class="info">
              <?php echo Yii::app()->user->getFlash('message'); ?>

@@ -13,9 +13,9 @@
             <table class="adminlist">
                <tbody>
                   <tr>
-                     <th>#</th>
+                     <th width="40">#</th>
                      <th align="left"><strong>Title</strong></th>
-                     <th align="left">Image Name</th>
+                     <th align="left" width="250">Image</th>
                      <th align="left" width="90">Action</th>
                   </tr>
                   <?php 
@@ -24,8 +24,8 @@
                   ?>
                   <tr>
                      <td align="center"><?php echo $count++; ?></td>
-                     <td><?php echo $slider->title; ?></td>
-                     <td><a href="<?php echo Yii::app()->request->baseUrl.'/uploads/slider'.$slider->image_name; ?>" target="_blank" style="color:#333333;"><?php echo $slider->image_name; ?></a></td>   
+                     <td><?php echo $slider->title; ?></td>                     
+                     <td><?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/slider/'.$slider->image_name, 'slider',array("height"=>80, "width"=>80)); ?></td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/EditSlider/'.$slider->id; ?>">Edit</a>&nbsp; &nbsp;
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/DeleteSlider/'.$slider->id; ?>">Delete</a>
@@ -33,7 +33,9 @@
                   </tr>
                   <?php } ?>
                   <tr>
-                     <td colspan="3"> <strong>1</strong>&nbsp;|&nbsp;</td>
+                     <td colspan="3"><?php $this->widget('CLinkPager', array(
+    'pages' => $pages,
+)) ?></td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddSlider">
                            <strong>Add New</strong>

@@ -41,7 +41,7 @@
             }
 
             $form = $this->beginWidget('CActiveForm', array(
-                'id'                     => 'edti_contact_form',
+                'id'                     => 'slider_form',
                 'enableClientValidation' => true,
                 'enableAjaxValidation'   => false, //turn on ajax validation on the client side
                 'clientOptions'          => array(
@@ -65,10 +65,10 @@
                                     <th colspan="2">Edit Slider:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Title<span>*</span></label></td>
+                                    <td><label for="#">Name</label></td>
                                     <td>
                                        <?php
-                                          echo $form->textField($slider, 'title', array('class' => 'required text_area', 'maxlength' => '100'));
+                                          echo $form->textField($slider, 'title', array('class' => 'text_area', 'maxlength' => '100'));
                                        ?>
                                     </td>
                                  </tr>
@@ -105,3 +105,23 @@
    </div> 
    <div class="clear"></div>
 </div>
+<script>
+  $(function(){
+    $.validator.addMethod('empty', function(value, element) {
+        return (value === '');
+    }, "This field must remain empty!");
+
+  $("#slider_form").validate({
+    errorElement: "div",
+    errorPlacement: function(error, element) {
+        element.after(error);
+    },
+                  rules: {                  
+                  'Slider[image_name]': "required",                
+                },
+                messages:{
+                  'Slider[image_name]': "Field required",
+                }
+    });
+}); 
+</script>
