@@ -17,9 +17,9 @@ if (environment_setting() == "development") {
 	$connectionString = 'mysql:host=localhost;dbname=' . $database;
      $is_live = false;
 } else if (environment_setting() == "staging") {
-	$database = '';
-     $username = '';
-     $password = '';
+	$database = 'weblitzs_nbi';
+     $username = 'weblitzs_nbi';
+     $password = 'nbi@weblitz!@#';
      $admin_email = 'mjsanish@yahoo.com';
      $connectionString = 'mysql:host=localhost;dbname=' . $database;
      $is_live = false;
@@ -82,8 +82,8 @@ return array(
 		'db'=>array(
 			'connectionString' => $connectionString,
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
+			'username' => $username,
+			'password' => $password,
 			'charset' => 'utf8',
 		),
 
