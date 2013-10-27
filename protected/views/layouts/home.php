@@ -8,14 +8,15 @@
 		<meta name="language" content="en" />
 		<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 		<?php
-		$script = Yii::app()->clientScript;
-		$script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/grid.css');
-		$script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/fonts.css');
-		$script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/main.css');
-		$script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/lightbox.css');
-		$script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/jquery-1.10.2.min.js');
-		$script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/lightbox-2.6.min.js');
-		$script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/html5.js');
+            $script = Yii::app()->clientScript;
+            $script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/grid.css');
+            $script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/fonts.css');
+            $script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/main.css');
+            $script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/lightbox.css');
+            $script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/jquery.js');
+            $script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/jquery-1.10.2.min.js');
+            $script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/lightbox-2.6.min.js');
+            $script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/html5.js');
 		?>
 	</head>
 	<body>

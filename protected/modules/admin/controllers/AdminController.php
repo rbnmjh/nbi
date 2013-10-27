@@ -67,6 +67,13 @@ class AdminController extends Controller {
                $file_extension = strtolower(end($tmp));
                $file_name = Common::generate_filename() . '.' . $file_extension;
                $uploaded_files->saveAs("uploads/slider/$file_name");
+               require 'media/image_lib/WideImage.php';
+               $image = WideImage::load("uploads/slider/$file_name");
+               $resized_pic = $image->resize(1024, 400, 'outside')->crop('center', 'center', 1024, 400);
+               $resized_pic->saveToFile("uploads/slider/$file_name");
+               $thumbs_pic = $image->resize(70, 25, 'outside')->crop('center', 'center', 70, 25);
+               $thumbs_pic->saveToFile("uploads/slider/thumbs/$file_name");
+               
                $slider->image_name = $file_name;
                $slider->save();
                }
