@@ -27,20 +27,20 @@ class GalleryController extends Controller
 
 	public function actionView($id){
 		$this->layout = '//layouts/home';
-		$criteria = new CDbCriteria();          
-        $criteria->condition ='is_active = 1 AND album_id='.$id;
-        $criteria->order = 'id DESC';
+		$criteria = new CDbCriteria();        
+		$criteria->alias = 'g';  
+        $criteria->condition ='g.is_active = 1 AND g.album_id='.$id;
+        $criteria->order = 'g.id DESC';
 		$new_page = Gallery::model()->findAll($criteria);
-		$gallery_data=array();
+		$album=Album::model()->findByAttributes(array('id'=>$id));
+		$album_name=$album->attributes['album_name'];
 		
 		if(empty($new_page)){
 			 throw new CHttpException(404,'The specified page cannot be found');
 		}
-		foreach($new_page as $page){
-			$gallery_data[]=$page->attributes;						
-		}
-		$data['view']=$gallery_data;
 		
+		$data['view']=$new_page;
+		$data['album_name']=$album_name;
 		$this->render('view',$data);
 	}
 }

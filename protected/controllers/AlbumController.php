@@ -22,14 +22,12 @@ class AlbumController extends Controller
         $criteria->condition ='status = 1';
         $criteria->order = 'id DESC';
 		$new_page = Album::model()->findAll($criteria);
-		$album_data=array();
 		if(empty($new_page)){
 			 throw new CHttpException(404,'The specified page cannot be found');
 		}
-		foreach($new_page as $page){
-			$gallery_data[]=$page->attributes;						
-		}
-		$data['show']=$album_data;		
+	
+
+		$data['album']=$new_page;		
 		$this->render('show',$data);
 	}
 }

@@ -17,23 +17,7 @@
 					</figure>
 			
 	<?php $j++;	} }?>
-	<?php $this->widget('application.extensions.slider.slider');?>
- 
-	<?php $this->widget('ext.slider.slider');?>
-	<?php
-        $this->widget('ext.slider.slider', array(
-            'container'=>'slideshow',
-            'width'=>960, 
-            'height'=>240, 
-            'timeout'=>6000,
-            'infos'=>true,
-            'constrainImage'=>true,
-            'images'=>array('01.jpg','02.jpg','03.jpg','04.jpg'),
-            'alts'=>array('First description','Second description','Third description','Four description'),
-            'defaultUrl'=>Yii::app()->request->hostInfo
-            )
-        );
-        ?>
+	
 </div><!-- end slider -->
 <div class="main_content">
 	<div class="page_wrap container_10">

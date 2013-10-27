@@ -12,7 +12,9 @@
 		$script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/grid.css');
 		$script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/fonts.css');
 		$script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/main.css');
+		$script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/lightbox.css');
 		$script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/jquery-1.10.2.min.js');
+		$script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/lightbox-2.6.min.js');
 		$script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/html5.js');
 		?>
 	</head>
