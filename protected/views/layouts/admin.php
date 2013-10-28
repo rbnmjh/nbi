@@ -10,7 +10,10 @@
       $script->registerCssFile(Yii::app()->request->baseUrl . '/media/admin/style2.css');
       $script->registerCssFile(Yii::app()->request->baseUrl . '/media/admin/style3.css');
       $script->registerCssFile(Yii::app()->request->baseUrl . '/media/admin/rokmoomenu.css');
-      $script->registerScriptFile(Yii::app()->request->baseUrl . '/media/javascripts/jquery.js');
+      $script->registerCssFile(Yii::app()->request->baseUrl . '/media/stylesheet/lightbox.css');
+      $script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/jquery.js');
+      $script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/jquery-1.10.2.min.js');
+      $script->registerScriptFile(Yii::app()->request->baseUrl . '/media/script/lightbox-2.6.min.js');
       $script->registerScriptFile(Yii::app()->request->baseUrl .'/media/javascripts/jquery.validate.js');
       $script->registerScriptFile(Yii::app()->request->baseUrl .'/media/javascripts/additional-methods.js');
       $script->registerScriptFile(Yii::app()->request->baseUrl . '/media/tinymce/jscripts/tiny_mce/tiny_mce.js');

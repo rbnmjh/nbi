@@ -25,7 +25,9 @@
                   <tr>
                      <td align="center"><?php echo $count++; ?></td>
                      <td><?php echo $slider->title; ?></td>                     
-                     <td><?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/slider/'.$slider->image_name, 'slider',array("height"=>80, "width"=>80)); ?></td>
+                     <td><a href="<?php echo Yii::app()->request->baseUrl.'/uploads/slider/'.$slider->image_name; ?>" data-lightbox="image-1">
+                           <?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/slider/admin-thumbs/'.$slider->image_name, 'slider'); ?></td>
+                        </a>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/EditSlider/'.$slider->id; ?>">Edit</a>&nbsp; &nbsp;
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/DeleteSlider/'.$slider->id; ?>">Delete</a>

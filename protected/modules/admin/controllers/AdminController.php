@@ -73,6 +73,8 @@ class AdminController extends Controller {
                $resized_pic->saveToFile("uploads/slider/$file_name");
                $thumbs_pic = $image->resize(70, 25, 'outside')->crop('center', 'center', 70, 25);
                $thumbs_pic->saveToFile("uploads/slider/thumbs/$file_name");
+               $admin_thumbs_pic = $image->resize(120, 60, 'outside')->crop('center', 'center', 120, 60);
+               $admin_thumbs_pic->saveToFile("uploads/slider/admin-thumbs/$file_name");
                
                $slider->image_name = $file_name;
                $slider->save();
@@ -98,6 +100,7 @@ class AdminController extends Controller {
                   $old_file=$slider->attributes['image_name'];
                   $slider->attributes = $_POST['Slider'];
                   $slider->image_name=$old_file;
+
                   $uploaded_files= CUploadedFile::getInstance($slider, 'image_name');
                   if ($slider->save()) {
                        if(!empty($uploaded_files)){ // check if uploaded file is set or not
@@ -105,10 +108,20 @@ class AdminController extends Controller {
                            $file_extension = strtolower(end($tmp));
                            $file_name = Common::generate_filename() . '.' . $file_extension;
                            $uploaded_files->saveAs('uploads/slider/'.$file_name);
+                           require 'media/image_lib/WideImage.php';
+                           $image = WideImage::load("uploads/slider/$file_name");
+                           $thumbs_pic = $image->resize(70, 25, 'outside')->crop('center', 'center', 70, 25);
+                           $thumbs_pic->saveToFile("uploads/slider/thumbs/$file_name");
+                           $thumbs_pic_admin = $image->resize(120,60, 'outside')->crop('center', 'center', 120, 60);
+                           $thumbs_pic_admin->saveToFile("uploads/slider/admin-thumbs/$file_name");
                            $slider->image_name = $file_name;
                            $slider->update();
                            if($old_file!='' && file_exists('uploads/slider/'. $old_file))
                               unlink('uploads/slider/'. $old_file);
+                           if($old_file!='' && file_exists('uploads/slider/thumbs/'. $old_file))
+                              unlink('uploads/slider/thumbs/'. $old_file);
+                           if($old_file!='' && file_exists('uploads/slider/admin-thumbs/'. $old_file))
+                              unlink('uploads/slider/admin-thumbs/'. $old_file);
                      }
                      Yii::app()->user->setFlash('message', "Data updated!");
                      $this->redirect(Yii::app()->request->baseUrl.'/admin/listSlider');
@@ -268,19 +281,22 @@ class AdminController extends Controller {
    public function actionDeleteSlider($id) {
       if ($this->checkLogin()) {
          $slider = Slider::model()->findByPk($id);
-         if (isset($slider)) {
-            
-
+         if (isset($slider)) {       
             $slider->delete();
-             if ($slider->attributes['image_name']!='' && file_exists('uploads/slider/' . $slider->attributes['image_name'])) {
+             if ($slider->attributes['image_name']!='' && file_exists('uploads/slider/' . $slider->attributes['image_name'])) 
                             unlink('uploads/slider/' . $slider->attributes['image_name']);
-         }
+             if ($slider->attributes['image_name']!='' && file_exists('uploads/slider/thumbs/'.$slider->attributes['image_name']))
+               unlink('uploads/slider/thumbs/' .$slider->attributes['image_name']);
+             if ($slider->attributes['image_name']!='' && file_exists('uploads/slider/admin-thumbs/'.$slider->attributes['image_name']))
+               unlink('uploads/slider/admin-thumbs/' .$slider->attributes['image_name']);
+             }
+         
 
          $this->redirect(Yii::app()->request->baseUrl . '/admin/ListSlider');
       }else {
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
          }
-      }
+      
    }
 
    public function actionDeleteGallery($id) {
