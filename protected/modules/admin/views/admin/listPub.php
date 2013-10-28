@@ -28,11 +28,11 @@
                                $file_extension = strtolower(end($tmp));
                                if($file_extension=='pdf')
                                  echo CHtml::link(CHtml::encode($item->files), 
-                                       Yii::app()->baseUrl . '/publications/' . $item->files,
+                                       Yii::app()->baseUrl . '/uploads/publication/' . $item->files,
                                        array('target'=>'_blank')); 
                               else
                                  echo CHtml::link(CHtml::encode($item->files), 
-                                       Yii::app()->baseUrl . '/publications/' . $item->files); 
+                                       Yii::app()->baseUrl . '/uploads/publication/' . $item->files); 
 
                                        ?>
                      </td>
@@ -44,7 +44,9 @@
                   </tr>
                   <?php } ?>
                   <tr>
-                     <td colspan="3"> <strong>1</strong>&nbsp;|&nbsp;</td>
+                     <td colspan="3"><?php $this->widget('CLinkPager', array(
+    'pages' => $pages,
+)) ?></td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl ?>/admin/addPub">
                            <strong>Add New</strong>

@@ -26,7 +26,9 @@
                      <td align="center"><?php echo $count++; ?></td>
                      <td><?php echo $item->name; ?></td>
                      <td><?php echo $item->image; ?></td>
-                     <td><?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/partner/'.$item->image, 'item',array("height"=>80, "width"=>80)); ?></td>
+                     <td><a href="<?php echo Yii::app()->request->baseUrl.'/uploads/partner/'.$item->image; ?>" data-lightbox="image-1">
+                        <?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/partner/thumbs/'.$item->image, 'item'); ?></td>
+                        </a>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/editPartner/'.$item->id; ?>">Edit</a>&nbsp; &nbsp;
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/DeletePartner/'.$item->id; ?>">Delete</a>
@@ -35,7 +37,8 @@
                   </tr>
                   <?php } ?>
                   <tr>
-                     <td colspan="4"> <strong>1</strong>&nbsp;|&nbsp;</td>
+                     <td colspan="4"><?php $this->widget('CLinkPager', array(
+    'pages' => $pages,))?></td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl ?>/admin/addPartner">
                            <strong>Add New</strong>

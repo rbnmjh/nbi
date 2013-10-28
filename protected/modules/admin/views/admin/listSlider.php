@@ -3,9 +3,9 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Slider > List sliders:</h2>
-         <?php if(Yii::app()->user->hasFlash('message')):?>
+         <?php if(Yii::app()->user->hasFlash('msg')):?>
              <div class="info">
-             <?php echo Yii::app()->user->getFlash('message'); ?>
+             <?php echo Yii::app()->user->getFlash('msg'); ?>
             </div>
       <?php endif; ?>
 

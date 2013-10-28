@@ -524,3 +524,16 @@ legend {
 }
 
 #horiz-menu li li {	border-bottom: 1px solid #9BD73E;}
+
+/*valitation*/
+span.required{
+	color: red;
+	font-size:12px;
+}
+
+p.note{
+	padding:0;
+	margin:0 5px;
+	font-size:12px;
+	font-family: arial;
+}

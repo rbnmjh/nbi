@@ -3,6 +3,7 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Album > Edit Album:</h2>
+         <p class="note">Fields with <span class="required">*</span> are required.</p>
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){
@@ -37,7 +38,7 @@
                                     <th colspan="2">Edit album</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Name<span>*</span></label></td>
+                                    <td><label for="#">Name<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($album, 'album_name', array('class' => 'required text_area', 'maxlength' => '100'));
@@ -46,7 +47,7 @@
                                  </tr>
 
                                   <tr>
-                                    <td><label for="#">Image File</label></td>
+                                    <td><label for="#">Image File<span class="required">*</span></label></td>
                                     <td>
                                       <?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/album/'.$album->image_name, 'album',array("height"=>100, "width"=>100)); ?>
                                        <?php
@@ -56,7 +57,7 @@
                                        &nbsp;</td>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Status<span>*</span></label></td>
+                                    <td><label for="#">Status<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->radioButtonList($album, 'status', array('0'=> 'unpublished', '1' => 'published'), array('separator'=>''));

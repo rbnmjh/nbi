@@ -19,8 +19,7 @@
                      <th align="left" width="100">Action</th>
                   </tr>
                   <?php 
-                     $count = 1;
-                     
+                     $count = 1;                     
                      foreach($media as $item){
                   ?>
                   <tr>
@@ -38,7 +37,8 @@
                   </tr>
                   <?php } ?>
                   <tr>
-                     <td colspan="4"> <strong>1</strong>&nbsp;|&nbsp;</td>
+                     <td colspan="4"><?php $this->widget('CLinkPager', array(
+                        'pages' => $pages,))?></td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl ?>/admin/addMedia">
                            <strong>Add New</strong>

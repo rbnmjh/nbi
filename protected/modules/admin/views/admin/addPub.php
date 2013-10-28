@@ -3,6 +3,7 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Publication > Add Publication:</h2>
+         <p class="note">Fields with <span class="required">*</span> are required.</p>
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){
@@ -37,7 +38,7 @@
                                     <th colspan="2">Add Publication:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Name<span>*</span></label></td>
+                                    <td><label for="#">Name<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($publication, 'name', array('class' => 'required text_area', 'maxlength' => '100'));
@@ -45,7 +46,7 @@
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">File<span>*</span></label></td>
+                                    <td><label for="#">File<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->fileField($publication, 'files', array('size' => '10', 'class' => 'required text_area'));

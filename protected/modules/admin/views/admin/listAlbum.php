@@ -3,9 +3,9 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Album > List Album:</h2>
-         <?php if(Yii::app()->user->hasFlash('message')):?>
+         <?php if(Yii::app()->user->hasFlash('msg')):?>
              <div class="info">
-             <?php echo Yii::app()->user->getFlash('message'); ?>
+             <?php echo Yii::app()->user->getFlash('msg'); ?>
             </div>
       <?php endif; ?>
          <div class="admin-setting">
@@ -25,7 +25,8 @@
                   <tr>
                      <td align="center"><?php echo $count++; ?></td>
                      <td><?php echo $item->album_name; ?></td>
-                     <td><?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/album/'.$item->image_name, 'album',array("height"=>80, "width"=>80)); ?></td>
+                     <td><a href="<?php echo Yii::app()->request->baseUrl.'/uploads/album/'.$item->image_name; ?>" data-lightbox="image-1">
+                      <?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/album/admin-thumbs/'.$item->image_name, 'album'); ?></td></a>
                      <td><?php if($item->status=='0')echo 'unpublished'; 
                                elseif($item->status=='1')echo 'published';
                          ?>

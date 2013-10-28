@@ -40,7 +40,7 @@
                echo $fail_msg;
             }
             $form = $this->beginWidget('CActiveForm', array(
-                'id'                     => 'edti_contact_form',
+                'id'                     => 'Page_form',
                 'enableClientValidation' => true,
                 'enableAjaxValidation'   => false, //turn on ajax validation on the client side
                 'clientOptions'          => array(
@@ -64,26 +64,26 @@
                                     <th colspan="2">Edit Page Content:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Page<span>*</span></label></td>
+                                    <td><label for="#">Page<span class="required">*</span></label></td>
                                     <td>
                                        <?php
-                                          echo $form->textField($Page, 'page', array('class' => 'required text_area', 'maxlength' => '100'));
+                                          echo $form->textField($page, 'page', array('class' => 'required text_area', 'maxlength' => '100'));
                                        ?>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Page title<span>*</span></label></td>
+                                    <td><label for="#">Page title<span class="required">*</span></label></td>
                                     <td>
                                        <?php
-                                          echo $form->textField($Page, 'page_title', array('class' => 'required text_area', 'maxlength' => '100'));
+                                          echo $form->textField($page, 'page_title', array('class' => 'required text_area', 'maxlength' => '100'));
                                        ?>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Content<span>*</span></label></td>
+                                    <td><label for="#">Content<span class="required">*</span></label></td>
                                     <td>
                                        <?php
-                                          echo $form->textArea($Page, 'content', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));
+                                          echo $form->textArea($page, 'content', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));
                                        ?>
                                     </td>
                                  </tr>
@@ -111,43 +111,29 @@
 </div>
 <script>
   $(function(){
-    $.validator.addMethod('filesize', function(value, element, param) {
-    // param = size (en bytes) 
-    // element = element to validate (<input>)
-    // value = value of the element (file name)
-    return this.optional(element) || (element.files[0].size <= param) 
-});
-    $.validator.addMethod('empty', function(value, element) {
-        return (value === '');
-    }, "This field must remain empty!");
-
-  $("#gallary_form").validate({
-    errorElement: "div",
-    errorPlacement: function(error, element) {
-        element.after(error);
-    },
-                  rules: {
-                  
-                  'Gallery[album_id]': "required",
-                  'Gallery[image_name]':{
-                     required: {
-                    depends: function (element) {
-                        return $("#Gallery_image_name").is(":filled");
-                    }},
-                      extension: "jpg|jpeg|png|bmp|gif",
-                      filesize: 2097152
-                      }
-                  
-                  },
-                  messages: {
-                    'Gallery[album_id]': "Please select the album name",
-                    'Gallery[image_name]': { filesize:'Must be less than 2 mb',extension: 'Please select the image  with a valid extension(jpg,jpeg,png,bmp,gif)'},
-                    
-                  }
-
-    });
-
-
-
+  $("#Page_form").submit(function() {
+                        // update underlying textarea before submit validation
+                        tinyMCE.triggerSave();
+                }).validate({
+                        ignore: "",
+                        rules: {
+                                'Page[title]': "required",                                
+                                'Page[content]': "required"                                
+                        },                        
+                        messages:{
+                                'Page[title]': "Field required",                                
+                                'Page[content]': "Field required"                               
+                        },   
+                         errorElement: "div",
+                        errorPlacement: function(error, element) {
+                                // position error label after generated textarea
+                                if (element.is("textarea")) {
+                                        $('#Page_content_parent').after(error);
+                                }
+                                else {
+                                        element.after(error);
+                                }
+                        }
+                });
 }); 
-</script> 
+</script>

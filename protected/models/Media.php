@@ -37,7 +37,7 @@ class Media extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, content, status', 'required'),
+			array('name, content', 'required'),
 			array('name', 'length', 'max'=>255),
 			array('status', 'length', 'max'=>1),
 			// The following rule is used by search().

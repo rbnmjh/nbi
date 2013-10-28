@@ -22,7 +22,7 @@
                   </tr>
                   <?php 
                      $count = 1;
-                     foreach($pages as $item){
+                     foreach($page as $item){
                   ?>
                   <tr>
                      <td align="center"><?php echo $count++; ?></td>
@@ -37,7 +37,8 @@
                   </tr>
                   <?php } ?>
                   <tr>
-                     <td colspan="3"> <strong>1</strong>&nbsp;|&nbsp;</td>
+                     <td colspan="3"><?php $this->widget('CLinkPager', array(
+                        'pages' => $pages,))?></td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl ?>/admin/addPage">
                            <strong>Add New</strong>

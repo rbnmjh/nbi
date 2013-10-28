@@ -3,6 +3,7 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Partner > Edit Partner:</h2>
+         <p class="note">Fields with <span class="required">*</span> are required.</p> 
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){
@@ -37,7 +38,7 @@
                                     <th colspan="2">Edit Partner Images:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Name<span>*</span></label></td>
+                                    <td><label for="#">Name<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($partner, 'name', array('class' => 'required text_area', 'maxlength' => '100'));
@@ -48,7 +49,7 @@
                                     
                                  </tr>
                                  <tr>
-                                    <td>&nbsp;Image File:&nbsp;</td>
+                                    <td><label for="#">Image file<span class="required">*</span></label></td>
                                     <td>
                                       <?php echo CHtml::image(Yii::app()->baseUrl.'/uploads/partner/' .$partner->image,'partner',array("height"=>100, "width"=>100));?>
                                        <?php
@@ -88,10 +89,14 @@
     errorPlacement: function(error, element) {
         element.after(error);
     },
-                  rules: {
-                  
-                  'Partner[name]': "required",
-                  }
+                  rules: {   
+                  'Partner[name]': "required",               
+                  'Partner[image]': "required",                
+                },
+                messages:{
+                  'Partner[name]': "Field required",
+                  'Partner[image]': "Field required",
+                }
     });
 }); 
-</script> 
+</script 
