@@ -884,26 +884,26 @@ public function actionAddPub(){
       if(isset($_POST['Publication'])){
             $publication = new Publication();
             $publication->attributes = $_POST['Publication'];
-            $publication->files = CUploadedFile::getInstance($publication, 'files');
+            $uploaded_files = CUploadedFile::getInstance($publication, 'files');
             if ($publication->save()) {
-               $tmp = explode('.', $publication->files);
-               $file_extension = strtolower(end($tmp));
-               $file_name = Common::generate_filename() . '.' . $file_extension;
-               $publication->files->saveAs('uploads/publication/'.$file_name);
-               $publication->files = $file_name;
-               $publication->update();
-               Yii::app()->user->setFlash('message', "Data saved!");
+               if($uploaded_files!=""){
+                  $tmp = explode('.', $publication->files);
+                  $file_extension = strtolower(end($tmp));
+                  $file_name = Common::generate_filename() . '.' . $file_extension;
+                  $uploaded_files->saveAs('uploads/publication/'.$file_name);
+                  $publication->files = $file_name;
+                  $publication->save();
+               }
+               Yii::app()->user->setFlash('msg', "Data added successfully.");
                $this->redirect(Yii::app()->request->baseUrl.'/admin/listPub');
-      
+         
             }else {
                $data['fail_msg'] = 'Fail to add publication.';
             }
       }
-   
-   
    $this->render('addPub',$data);
    }
-   else {
+   else{
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
 }
@@ -938,17 +938,17 @@ public function actionEditPub($id){
                   $publication->attributes = $_POST['Publication'];
                   $uploaded_files= CUploadedFile::getInstance($publication, 'files');
                   if ($publication->save()) {
-                       if(!empty($uploaded_files)){ // check if uploaded file is set or not
-                           $tmp = explode('.', $uploaded_files);
-                           $file_extension = strtolower(end($tmp));
-                           $file_name = Common::generate_filename() . '.' . $file_extension;
-                           $uploaded_files->saveAs('uploads/publication/'.$file_name);
-                           $publication->files = $file_name;
-                           $publication->update();
-                           if($old_file!='' && file_exists('uploads/publications/'. $old_file))
+                     if(!empty($uploaded_files)){ // check if uploaded file is set or not
+                        $tmp = explode('.', $uploaded_files);
+                        $file_extension = strtolower(end($tmp));
+                        $file_name = Common::generate_filename() . '.' . $file_extension;
+                        $uploaded_files->saveAs('uploads/publication/'.$file_name);
+                        $publication->files = $file_name;
+                        $publication->update();
+                        if($old_file!='' && file_exists('uploads/publications/'. $old_file))
                               unlink('uploads/publication/'. $old_file);
                      }
-                     Yii::app()->user->setFlash('message', "Data updated!");
+                     Yii::app()->user->setFlash('msg', "Data updated successfully.");
                      $this->redirect(Yii::app()->request->baseUrl.'/admin/listPub');
             
                   }else {
@@ -960,7 +960,7 @@ public function actionEditPub($id){
 
          }
          else{
-             Yii::app()->user->setFlash('message', "Unable to edit requested page.");
+             Yii::app()->user->setFlash('msg', "Unable to edit requested page.");
             $this->redirect(Yii::app()->request->baseUrl . '/admin/listPub');
          }        
         
