@@ -22,7 +22,7 @@
 				<li><a href="#" title="Partner">Partner</a></li>
 				<li><a href="#" title="Contact">Contact</a></li>
 				<li><a href="#" title="CSR">CSR</a></li>
-				<li class="last" title="Publication"><a href="#">Publication</a></li>
+				<li class="last" title="Publication"><a href="">Publication</a></li>
 			</ul>
 		</nav><!-- end nav -->
 		<div id="logo">
