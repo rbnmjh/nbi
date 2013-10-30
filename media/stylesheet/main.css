@@ -22,12 +22,18 @@ h1,h2,h3,g4,h5,h6{
 	line-height:20px;
 }
 h1{font-size:24px;}
+
 h2{
 	font-size:24px;
 	color:#FFF;
 	text-shadow:1px 1px 0 rgba(0,0,0,.5);
 }
-h3{font-size:20px}
+h3{font-size:20px;}
+h4{
+	font-size:18px;
+	color:#000;
+	font-weight: bold;
+	}
 p{
 	color:#000;
 	font:13px/20px 'open_sansregular',Arial, Helvetica, sans-serif;
@@ -310,6 +316,58 @@ nav ul ul {
 						h1.album,h1.gallery{
 							padding-bottom:5px;
 						}
+
+						.publication{
+							margin-bottom:10px;
+						}
+						span.num{
+							float:left;
+							font-size:16px;
+						}
+
+						/*a.publication:hover{
+							text-decoration: underline;
+						}*/
+
+						
+						.left_pub{
+							float:left;
+							/*padding-right:15px;*/
+							color:#183C69;
+							font-size: 12px;
+							width: 50px;
+						}
+						a.right_pub{
+							color:#3399CC;
+							font-size: 11px;							
+						}
+						a.right_pub:hover{
+							color:#3399CC;
+							text-decoration: underline;;							
+						}
+						.right_pub_content{
+							padding-top: 5px;
+							padding-left:50px;
+							text-align: justify;
+
+						}
+						.right_pub_content p{
+							font-size: 11px;
+							color:#183C69;
+						}
+						.pub{
+							padding-bottom: 20px;
+						}
+						h1.pub_view_top{
+							font-size: 15px;
+						}
+
+						.pub_view_bottom p{
+							font-size: 11px;
+							text-align: justify;
+						}
+						.related,.related a{margin-top: 30px;color: rgb(24, 60, 105);}
+						.related a:hover{text-decoration: underline;}
 
 /*-------- FOOTER -----------*/
 footer{

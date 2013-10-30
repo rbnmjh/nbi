@@ -48,7 +48,7 @@
                                  <tr>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Image name<span>*</span></label></td>
+                                    <td><label for="#">Image name<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->fileField($slider, 'image_name', array('size' => '10', 'class' => 'required text_area'));

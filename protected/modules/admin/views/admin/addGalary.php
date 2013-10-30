@@ -37,7 +37,7 @@
                                     <th colspan="2">Add Gallery information:</th>
                                  </tr>
                                   <tr>
-                                    <td><label for="#">Album<span>*</span></label></td>
+                                    <td><label for="#">Album<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($gallery, 'album_id', array('class' => 'required text_area', 'maxlength' => '100'));
@@ -46,7 +46,7 @@
                                  </tr>
 
                                  <tr>
-                                    <td><label for="#">Title<span>*</span></label></td>
+                                    <td><label for="#">Title<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($gallery, 'title', array('class' => 'required text_area', 'maxlength' => '100'));
@@ -54,7 +54,7 @@
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Description<span>*</span></label></td>
+                                    <td><label for="#">Description<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($gallery, 'description', array('class' => 'required text_area', 'maxlength' => '100'));
@@ -62,7 +62,7 @@
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Image file<span>*</span></label></td>
+                                    <td><label for="#">Image file<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textArea($gallery, 'image_name', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));

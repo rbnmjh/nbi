@@ -31,6 +31,7 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Slider > Edit Slider:</h2>
+         <p class="note">Fields with <span class="required">*</span> are required.</p>
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){
@@ -73,7 +74,7 @@
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Image name<span>*</span></label></td>
+                                    <td><label for="#">Image name<span class="required">*</span></label></td>
                                     <td>
                                        <?php echo CHtml::image(Yii::app()->baseUrl.'/uploads/slider/' .$slider->image_name,'partner',array("height"=>100, "width"=>100));?>
                                        <?php

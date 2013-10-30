@@ -36,13 +36,13 @@ class Publication extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
+			array('name, content', 'required'),
 			array('name', 'length', 'max'=>255),
 			array('files', 'length', 'max'=>100),
 			array('files', 'file', 'types'=>'docx, doc, pdf','allowEmpty'=>true,'message'=>'invalid document'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, files', 'safe', 'on'=>'search'),
+			array('id, name,content, files', 'safe', 'on'=>'search'),
 		);
 	}
 

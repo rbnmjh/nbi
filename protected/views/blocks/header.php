@@ -22,11 +22,12 @@
 					  $network_url=$page_url.'network';
 					  $partner_url=$home_url.'/partner'
 				 ?>
+
 				<li class="top_menu"><a href="<?php echo $home_url;?>" class='site' >Home</a></li>				
 				<li class="top_menu"> <a href="#" >About</a>
 					<ul>	
-						<li> <a href="<?php  echo $objective_url;?>" >Objectives</a></li>
-						<li class='last'> <a href="<?php  echo $member_url;?>" >Member</a></li>
+						<li class='last'> <a href="<?php  echo $objective_url;?>" >Objectives</a></li>
+						
 					</ul>
 				</li>
 				<li class="top_menu"><a href="#" title="Activities" class="top_menu">Activites</a></li>
@@ -43,8 +44,8 @@
 				<li class="top_menu"><a href="<?php echo $partner_url; ?>" class="partner">Partner</a></li>
 				<li class="top_menu"><a href="#" class="contact">Contact</a></li>
 				<li class="top_menu"><a href="#" class="csr">CSR</a></li>
-				<li class="last top_menu" ><a href="#">Publication</a></li>
-			</ul> 
+				<li class="last" title="Publication"><a href="<?php echo Yii::app()->baseUrl.'/publication'?>" class='publication'>Publication</a></li>
+			</ul>
 
 
 			

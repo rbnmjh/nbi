@@ -17,7 +17,7 @@
 							<li class="<?php $rem=$j%3; if($rem==0){ echo "last";} ?>">
 								<figure>
 									<a href="<?php echo Yii::app()->request->baseUrl; ?>/gallery/view/<?php echo $value->attributes['id']?>">
-									<img src="<?php echo Yii::app()->request->baseUrl; ?>/uploads/album/<?php echo $value['image_name']?>" alt="<?php echo $value['album_name']; ?>" width='214' height='124'>
+									<img src="<?php echo Yii::app()->request->baseUrl; ?>/uploads/album/thumbs/<?php echo $value['image_name']?>" alt="<?php echo $value['album_name']; ?>">
 									<figcaption><?php echo $value->attributes['album_name']; ?></figcaption></a>
 								</figure>
 						</li>

@@ -31,7 +31,7 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Media > Add Media:</h2>
-          
+         <p class="note">Fields with <span class="required">*</span> are required.</p>
          <div class="admin-setting">
            <?php 
             if(isset($success_msg)){
@@ -66,7 +66,7 @@
                                     <th colspan="2">Add Media Content:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Title<span>*</span></label></td>
+                                    <td><label for="#">Title<span class="required" >*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($media, 'name', array('class' => 'required text_area', 'maxlength' => '100'));
@@ -75,7 +75,7 @@
                                  </tr>
                                 
                                  <tr>
-                                    <td><label for="#">Content<span>*</span></label></td>
+                                    <td><label for="#">Content<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textArea($media, 'content', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));
@@ -84,7 +84,7 @@
                                  </tr>
                                  
                                   <tr>
-                                    <td><label for="#">Status<span>*</span></label></td>
+                                    <td><label for="#">Status<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->radioButtonList($media, 'status', array( '0' => 'unpublished', '1' => 'published'),array('separator'=>''));

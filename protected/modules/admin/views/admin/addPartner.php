@@ -3,6 +3,7 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Partner > Add Partner:</h2>
+         <p class="note">Fields with <span class="required">*</span> are required.</p>
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){
@@ -38,7 +39,7 @@
                                     <th colspan="2">Add Partner Images:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Name<span>*</span></label></td>
+                                    <td><label for="#">Name<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($partner, 'name', array('class' => 'text_area', 'maxlength' => '100'));
@@ -49,7 +50,7 @@
                                     
                                  </tr>
                                  <tr>
-                                    <td>&nbsp;Image File:&nbsp;</td>
+                                    <td><label for="#">Image file<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->fileField($partner, 'image', array('size' => '10', 'class' => 'required text_area'));
@@ -88,10 +89,12 @@
     errorPlacement: function(error, element) {
         element.after(error);
     },
-                  rules: {                  
+                  rules: {   
+                  'Partner[name]': "required",               
                   'Partner[image]': "required",                
                 },
                 messages:{
+                  'Partner[name]': "Field required",
                   'Partner[image]': "Field required",
                 }
     });

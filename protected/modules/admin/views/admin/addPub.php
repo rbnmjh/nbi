@@ -1,8 +1,37 @@
+<script type="text/javascript">
+   tinyMCE.init({
+      // General options
+      mode : "exact",
+          elements : "Publication_content",
+      theme : "advanced",
+      skin : "o2k7",
+          skin_variant : "silver",
+      plugins : "autolink,lists,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,inlinepopups,autosave",
+
+      // Theme options
+      theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect,code,forecolor",
+      theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,image",
+      theme_advanced_toolbar_location : "top",
+      theme_advanced_toolbar_align : "left",
+      theme_advanced_statusbar_location : "bottom",
+      theme_advanced_resizing : false,
+
+      // Example word content CSS (should be your site CSS) this one removes paragraph margins
+      content_css : "css/word.css",
+
+      // Drop lists for link/image/media/template dialogs
+      template_external_list_url : "lists/template_list.js",
+      external_link_list_url : "lists/link_list.js",
+      external_image_list_url : "lists/image_list.js",
+      media_external_list_url : "lists/media_list.js"
+  });
+</script>
 <div class="main_content"> 
    <?php $this->renderPartial('//blocks/admin_menu'); ?>
    <div class="center_content">
       <div class="right_content">
          <h2>Publication > Add Publication:</h2>
+         <p class="note">Fields with <span class="required">*</span> are required.</p>
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){
@@ -14,7 +43,7 @@
 
             $form = $this->beginWidget('CActiveForm', array(
                 'id'                     => 'add_publication',
-                'enableClientValidation' => false,
+                'enableClientValidation' => true,
                 'enableAjaxValidation'   => false, //turn on ajax validation on the client side
                 'clientOptions'          => array(
                     'validateOnSubmit' => true,
@@ -37,7 +66,7 @@
                                     <th colspan="2">Add Publication:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Name<span>*</span></label></td>
+                                    <td><label for="#">Name<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($publication, 'name', array('class' => 'required text_area', 'maxlength' => '100'));
@@ -45,10 +74,18 @@
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">File<span>*</span></label></td>
+                                    <td><label for="#">Content<span class="required">*</span></label></td>
                                     <td>
                                        <?php
-                                          echo $form->fileField($publication, 'files', array('size' => '10', 'class' => 'required text_area'));
+                                          echo $form->textArea($publication, 'content', array('class' => 'required text_area', 'width' => '1000', 'height' => '1000' ,'maxlength' => '700','rows'=>'250','cols'=>'100'));
+                                       ?>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td><label for="#">File</label></td>
+                                    <td>
+                                       <?php
+                                          echo $form->fileField($publication, 'files', array('size' => '10'));
                                        ?>
                                        &nbsp;</td>
                                  </tr>
@@ -77,23 +114,31 @@
 </div>
 <script>
   $(function(){
-    $.validator.addMethod('empty', function(value, element) {
-        return (value === '');
-    }, "This field must remain empty!");
-
-  $("#add_publication").validate({
-    errorElement: "div",
-    errorPlacement: function(error, element) {
-        element.after(error);
-    },
-                  rules: {        
-                  'Publication[name]': "required",          
-                  'Publication[files]': "required",                
-                },
-                messages:{
-                  'Publication[name]': "Field required",
-                  'Publication[files]': "Field required",
-                }
-    });
+  $("#add_publication").submit(function() {
+                        // update underlying textarea before submit validation
+                        tinyMCE.triggerSave();
+                }).validate({
+                        ignore: "",
+                        rules: {
+                                'Publication[name]': "required",                                
+                                'Publication[content]': "required"
+                                                                
+                        },                        
+                        messages:{
+                                'Publication[name]': "Field required",                                
+                                'Publication[content]': "Field required" 
+                                                              
+                        },   
+                         errorElement: "div",
+                        errorPlacement: function(error, element) {
+                                // position error label after generated textarea
+                                if (element.is("textarea")) {
+                                        $('#Publication_content_parent').after(error);
+                                }
+                                else {
+                                        element.after(error);
+                                }
+                        }
+                });
 }); 
 </script>

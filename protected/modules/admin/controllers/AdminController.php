@@ -79,7 +79,7 @@ class AdminController extends Controller {
                $slider->image_name = $file_name;
                $slider->save();
                }
-               Yii::app()->user->setFlash('message', "Data saved!");
+               Yii::app()->user->setFlash('msg', "Slider image added successfully.");
                $this->redirect(Yii::app()->request->baseUrl.'/admin/listSlider');
             }else{
                $data['fail_msg'] = 'Fail to add slider.';
@@ -123,7 +123,7 @@ class AdminController extends Controller {
                            if($old_file!='' && file_exists('uploads/slider/admin-thumbs/'. $old_file))
                               unlink('uploads/slider/admin-thumbs/'. $old_file);
                      }
-                     Yii::app()->user->setFlash('message', "Data updated!");
+                     Yii::app()->user->setFlash('msg', "Slider image updated successfully.");
                      $this->redirect(Yii::app()->request->baseUrl.'/admin/listSlider');
             
                   }else {
@@ -135,7 +135,7 @@ class AdminController extends Controller {
 
          }
          else{
-             Yii::app()->user->setFlash('message', "Unable to edit requested page.");
+             Yii::app()->user->setFlash('msg', "Unable to edit requested page.");
             $this->redirect(Yii::app()->request->baseUrl . '/admin/listSlider');
          }        
         
@@ -161,6 +161,12 @@ class AdminController extends Controller {
                $file_extension = strtolower(end($tmp));
                $file_name = Common::generate_filename() . '.' . $file_extension;
                $uploaded_files->saveAs("uploads/gallery/$file_name");
+               require 'media/image_lib/WideImage.php';
+               $image = WideImage::load("uploads/gallery/$file_name");
+               $thumbs_pic = $image->resize(214, 124, 'outside')->crop('center', 'center', 214, 124);
+               $thumbs_pic->saveToFile("uploads/gallery/thumbs/$file_name");
+               $admin_thumbs_pic = $image->resize(120, 60, 'outside')->crop('center', 'center', 120, 60);
+               $admin_thumbs_pic->saveToFile("uploads/gallery/admin-thumbs/$file_name");
                $gallary->image_name = $file_name;
                $gallary->update();
                }
@@ -197,10 +203,20 @@ class AdminController extends Controller {
                            $file_extension = strtolower(end($tmp));
                            $file_name = Common::generate_filename() . '.' . $file_extension;
                            $uploaded_files->saveAs('uploads/gallery/'.$file_name);
+                           require 'media/image_lib/WideImage.php';
+                           $image = WideImage::load("uploads/gallery/$file_name");
+                           $thumbs_pic = $image->resize(214, 124, 'outside')->crop('center', 'center', 214, 124);
+                           $thumbs_pic->saveToFile("uploads/gallery/thumbs/$file_name");
+                           $admin_thumbs_pic = $image->resize(120, 60, 'outside')->crop('center', 'center', 120, 60);
+                           $admin_thumbs_pic->saveToFile("uploads/gallery/admin-thumbs/$file_name");
                            $gallery->image_name = $file_name;
                            $gallery->update();
                            if($old_file!='' && file_exists('uploads/gallery/'. $old_file))
                               unlink('uploads/gallery/'. $old_file);
+                           if($old_file!='' && file_exists('uploads/gallery/thumbs/'. $old_file))
+                              unlink('uploads/gallery/thumbs/'. $old_file);
+                           if($old_file!='' && file_exists('uploads/gallery/admin-thumbs/'. $old_file))
+                              unlink('uploads/gallery/admin-thumbs/'. $old_file);
                      }
                      Yii::app()->user->setFlash('message', "Data updated!");
                      $this->redirect(Yii::app()->request->baseUrl.'/admin/listGallery');
@@ -242,9 +258,6 @@ class AdminController extends Controller {
                'sliders' => $models,
                'pages' => $pages
             ));
-         //$sliders = Slider::model()->findAllByAttributes(array('is_active' => 1));
-         //$data['sliders'] = $sliders;
-         //$this->render('listSlider', $data);
       }else {
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
@@ -270,10 +283,7 @@ class AdminController extends Controller {
                'gallery' => $models,
                'pages' => $pages
             ));
-         //$gallery = Gallery::model()->with('album')->findAllByAttributes(array('is_active' => 1));
-         ///$data['gallery'] = $gallery;
-         ///$this->render('listGallery', $data);
-      }else {
+         }else {
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
    }
@@ -304,9 +314,12 @@ class AdminController extends Controller {
          $gallery = Gallery::model()->findByPk($id);
          if (isset($gallery)) {
                  if($gallery->delete()){
-                     if ($gallery->attributes['image_name']!='' && file_exists('uploads/gallery/' . $gallery->attributes['image_name'])) {
+                     if ($gallery->attributes['image_name']!='' && file_exists('uploads/gallery/' . $gallery->attributes['image_name'])) 
                             unlink('uploads/gallery/' . $gallery->attributes['image_name']);
-                         }
+                     if ($gallery->attributes['image_name']!='' && file_exists('uploads/gallery/thumbs/' . $gallery->attributes['image_name'])) 
+                            unlink('uploads/gallery/thumbs/' . $gallery->attributes['image_name']);    
+                     if ($gallery->attributes['image_name']!='' && file_exists('uploads/gallery/admin-thumbs/' . $gallery->attributes['image_name'])) 
+                            unlink('uploads/gallery/admin-thumbs/' . $gallery->attributes['image_name']); 
                  }
          }
 
@@ -394,7 +407,7 @@ public function actionAddPage(){
 	   if(isset($_POST['Page'])){
 		    $page->attributes = $_POST['Page'];
 		       if($page->save()){
-               Yii::app()->user->setFlash('message', "Data saved!");
+               Yii::app()->user->setFlash('msg', "Page added successfully.");
 			      $this->redirect(Yii::app()->request->baseUrl.'/admin/listPages');
 			   }else{
 			 $data['fail_msg'] = 'Fail to add Page.';
@@ -411,22 +424,32 @@ public function actionAddPage(){
 
 public function actionListPages(){
    if ($this->checkLogin()) {
-	$page = Page::model()->findAll();
-	$data['pages']=$page;
-	$this->render('listPages',$data);
+      $criteria = new CDbCriteria();
+      $criteria->order = 'id DESC';
+      $count=Page::model()->count($criteria);
+      $pages=new CPagination($count);
+
+         // results per page
+      $pages->pageSize=2;
+      $pages->applyLimit($criteria);
+      $models = Page::model()->findAll($criteria);
+      $this->render('listPages', array(
+         'page' => $models,
+         'pages' => $pages
+      )); 
 }
  else{
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
 }
 public function actionEditPage($id){
-
    if ($this->checkLogin()) {
          $page = Page::model()->findByPk($id);
          if(!empty($page)){
             if(isset($_POST['Page'])){
                $page->attributes = $_POST['Page'];
                $page->update();
+               Yii::app()->user->setFlash('msg', "Page updated successfully.");
                $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPages');
             }
          $data['page'] = $page;
@@ -434,7 +457,7 @@ public function actionEditPage($id){
 
          }
          else{
-             Yii::app()->user->setFlash('message', "Unable to edit requested page.");
+             Yii::app()->user->setFlash('msg', "Unable to edit requested page.");
             $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPages');
          }        
         
@@ -497,8 +520,7 @@ public function actionDeletePage($id) {
                   Yii::app()->user->setFlash('msg','Fail to update media.');
                }  
                
-            }
-            
+            }            
             $data['media'] = $media;
             $this->render('editMedia', $data);
       }
@@ -507,9 +529,23 @@ public function actionDeletePage($id) {
          } 
    }
    public function actionListMedia(){
-      $media = Media::model()->findAll();
-      $data['media']=$media;
-      $this->render('listMedia',$data);
+   if ($this->checkLogin()) {      
+      $criteria = new CDbCriteria();
+      $criteria->order = 'id DESC';
+      $count=Media::model()->count($criteria);
+      $pages=new CPagination($count);
+
+         // results per page
+      $pages->pageSize=5;
+      $pages->applyLimit($criteria);
+      $models = Media::model()->findAll($criteria);
+      $this->render('listMedia', array(
+         'media' => $models,
+         'pages' => $pages
+      ));    
+   }else{
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         }
    }
 
    public function actionDeleteMedia($id) {
@@ -571,11 +607,24 @@ public function actionDeletePage($id) {
          } 
    }
    public function actionListNews(){
-      $news = News::model()->findAll();
-      $data['news']=$news;
-      $this->render('listNews',$data);
-   }
+      if ($this->checkLogin()) {      
+      $criteria = new CDbCriteria();
+      $criteria->order = 'id DESC';
+      $count=News::model()->count($criteria);
+      $pages=new CPagination($count);
 
+         // results per page
+      $pages->pageSize=2;
+      $pages->applyLimit($criteria);
+      $models = News::model()->findAll($criteria);
+      $this->render('listNews', array(
+         'news' => $models,
+         'pages' => $pages
+      ));    
+   }else{
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         }
+   }
    public function actionDeleteNews($id) {
       if ($this->checkLogin()) {
          $news = News::model()->findByPk($id);
@@ -634,9 +683,23 @@ public function actionDeletePage($id) {
          } 
    }
    public function actionListBlogs(){
-      $blogs = Blog::model()->findAll();
-      $data['blogs']=$blogs;
-      $this->render('listBlogs',$data);
+      if ($this->checkLogin()) {      
+      $criteria = new CDbCriteria();
+      $criteria->order = 'id DESC';
+      $count=Blog::model()->count($criteria);
+      $pages=new CPagination($count);
+
+         // results per page
+      $pages->pageSize=2;
+      $pages->applyLimit($criteria);
+      $models = Blog::model()->findAll($criteria);
+      $this->render('listBlogs', array(
+         'blogs' => $models,
+         'pages' => $pages
+      ));    
+   }else{
+            $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
+         }
    }
 
    public function actionDeleteBlogs($id) {
@@ -668,10 +731,16 @@ public function actionAddAlbum(){
                $file_extension = strtolower(end($tmp));
                $file_name = Common::generate_filename() . '.' . $file_extension;
                $uploaded_files->saveAs("uploads/album/$file_name");
+               require 'media/image_lib/WideImage.php';
+               $image = WideImage::load("uploads/album/$file_name");
+               $thumbs_pic = $image->resize(214, 124, 'outside')->crop('center', 'center', 214, 124);
+               $thumbs_pic->saveToFile("uploads/album/thumbs/$file_name");
+               $admin_thumbs_pic = $image->resize(120, 60, 'outside')->crop('center', 'center', 120, 60);
+               $admin_thumbs_pic->saveToFile("uploads/album/admin-thumbs/$file_name");
                $album->image_name = $file_name;
                $album->update();
                }
-                Yii::app()->user->setFlash('message', "Data saved!");
+                Yii::app()->user->setFlash('msg', "Album added successfully.");
                $this->redirect(Yii::app()->request->baseUrl.'/admin/listAlbum');
                
             }else {
@@ -728,12 +797,22 @@ public function actionEditAlbum($id){
                            $file_extension = strtolower(end($tmp));
                            $file_name = Common::generate_filename() . '.' . $file_extension;
                            $uploaded_files->saveAs('uploads/album/'.$file_name);
+                           require 'media/image_lib/WideImage.php';
+                           $image = WideImage::load("uploads/gallery/$file_name");
+                           $thumbs_pic = $image->resize(214, 124, 'outside')->crop('center', 'center', 214, 124);
+                           $thumbs_pic->saveToFile("uploads/gallery/thumbs/$file_name");
+                           $admin_thumbs_pic = $image->resize(120, 60, 'outside')->crop('center', 'center', 120, 60);
+                           $admin_thumbs_pic->saveToFile("uploads/gallery/admin-thumbs/$file_name");
                            $album->image_name = $file_name;
                            $album->update();
                            if($old_file!='' && file_exists('uploads/album/'. $old_file))
                               unlink('uploads/album/'. $old_file);
+                           if($old_file!='' && file_exists('uploads/album/thumbs/'. $old_file))
+                              unlink('uploads/album/thumbs/'. $old_file);
+                           if($old_file!='' && file_exists('uploads/album/admin-thumbs/'. $old_file))
+                              unlink('uploads/album/admin-thumbs/'. $old_file);
                      }
-                     Yii::app()->user->setFlash('message', "Data updated!");
+                     Yii::app()->user->setFlash('msg', "Album updated successfully.");
                      $this->redirect(Yii::app()->request->baseUrl.'/admin/listAlbum');
             
                   }else {
@@ -771,14 +850,22 @@ public function actionDeleteAlbum($id) {
 
                if($old_file!='' && file_exists('uploads/album/'. $old_file))
                   unlink('uploads/album/'. $old_file);
+               if($old_file!='' && file_exists('uploads/album/thumbs/'. $old_file))
+                  unlink('uploads/album/thumbs/'. $old_file);
+               if($old_file!='' && file_exists('uploads/album/admin-thumbs/'. $old_file))
+                  unlink('uploads/album/admin-thumbs/'. $old_file);
                 if(!empty($gallery_image_name_list)){
                   foreach ($gallery_image_name_list as $gal_img) {
-                     if($gal_img!='' && file_exists('uploads/gallery/'. $gal_img)){
+                     if($gal_img!='' && file_exists('uploads/gallery/'. $gal_img))
                             unlink('uploads/gallery/'. $gal_img);
-                     }
-                  }
+                     if($gal_img!='' && file_exists('uploads/gallery/thumbs/'. $gal_img))
+                            unlink('uploads/gallery/thumbs/'. $gal_img);
+                     if($gal_img!='' && file_exists('uploads/gallery/admin-thumbs/'. $gal_img))
+                            unlink('uploads/gallery/admin-thumbs/'. $gal_img);
                }
                
+              
+              } 
 
             }
             
@@ -797,36 +884,45 @@ public function actionAddPub(){
       if(isset($_POST['Publication'])){
             $publication = new Publication();
             $publication->attributes = $_POST['Publication'];
-            $publication->files = CUploadedFile::getInstance($publication, 'files');
+            $uploaded_files = CUploadedFile::getInstance($publication, 'files');
             if ($publication->save()) {
-               $tmp = explode('.', $publication->files);
-               $file_extension = strtolower(end($tmp));
-               $file_name = Common::generate_filename() . '.' . $file_extension;
-               $publication->files->saveAs('publications/'.$file_name);
-               $publication->files = $file_name;
-               $publication->update();
-               Yii::app()->user->setFlash('message', "Data saved!");
+               if($uploaded_files!=""){
+                  $tmp = explode('.', $publication->files);
+                  $file_extension = strtolower(end($tmp));
+                  $file_name = Common::generate_filename() . '.' . $file_extension;
+                  $uploaded_files->saveAs('uploads/publication/'.$file_name);
+                  $publication->files = $file_name;
+                  $publication->save();
+               }
+               Yii::app()->user->setFlash('msg', "Data added successfully.");
                $this->redirect(Yii::app()->request->baseUrl.'/admin/listPub');
-      
+         
             }else {
                $data['fail_msg'] = 'Fail to add publication.';
             }
       }
-   
-   
    $this->render('addPub',$data);
    }
-   else {
+   else{
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
 }
 
 public function actionListPub(){
    if ($this->checkLogin()) {
-   $publication = Publication::model()->findAll();
-   $data['publication']=$publication;
-   $this->render('listPub',$data);
-}
+      $criteria = new CDbCriteria();
+      $criteria->order = 'id DESC';
+      $count=Publication::model()->count($criteria);
+      $pages=new CPagination($count);
+      $pages->pageSize=4;     // results per page
+      $pages->applyLimit($criteria);
+      $models = Publication::model()->findAll($criteria);
+
+      $this->render('listPub', array(
+         'publication' => $models,
+         'pages' => $pages
+      ));
+   }
  else{
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
       }
@@ -842,17 +938,17 @@ public function actionEditPub($id){
                   $publication->attributes = $_POST['Publication'];
                   $uploaded_files= CUploadedFile::getInstance($publication, 'files');
                   if ($publication->save()) {
-                       if(!empty($uploaded_files)){ // check if uploaded file is set or not
-                           $tmp = explode('.', $uploaded_files);
-                           $file_extension = strtolower(end($tmp));
-                           $file_name = Common::generate_filename() . '.' . $file_extension;
-                           $uploaded_files->saveAs('publications/'.$file_name);
-                           $publication->files = $file_name;
-                           $publication->update();
-                           if($old_file!='' && file_exists('publications/'. $old_file))
-                              unlink('publications/'. $old_file);
+                     if(!empty($uploaded_files)){ // check if uploaded file is set or not
+                        $tmp = explode('.', $uploaded_files);
+                        $file_extension = strtolower(end($tmp));
+                        $file_name = Common::generate_filename() . '.' . $file_extension;
+                        $uploaded_files->saveAs('uploads/publication/'.$file_name);
+                        $publication->files = $file_name;
+                        $publication->update();
+                        if($old_file!='' && file_exists('uploads/publications/'. $old_file))
+                              unlink('uploads/publication/'. $old_file);
                      }
-                     Yii::app()->user->setFlash('message', "Data updated!");
+                     Yii::app()->user->setFlash('msg', "Data updated successfully.");
                      $this->redirect(Yii::app()->request->baseUrl.'/admin/listPub');
             
                   }else {
@@ -864,7 +960,7 @@ public function actionEditPub($id){
 
          }
          else{
-             Yii::app()->user->setFlash('message', "Unable to edit requested page.");
+             Yii::app()->user->setFlash('msg', "Unable to edit requested page.");
             $this->redirect(Yii::app()->request->baseUrl . '/admin/listPub');
          }        
         
@@ -881,8 +977,8 @@ public function actionDeletePub($id) {
          if (isset($publication)) {
             if($publication->delete()){
             $old_file=$publication->attributes['files'];
-            if($old_file!='' && file_exists('publications/'. $old_file))
-            unlink('publications/'. $old_file);
+            if($old_file!='' && file_exists('uploads/publication/'. $old_file))
+            unlink('uploads/publication/'. $old_file);
 
             }
          }
@@ -903,8 +999,12 @@ public function actionAddPartner() {
                $file_extension = strtolower(end($tmp));
                $file_name = Common::generate_filename() . '.' . $file_extension;
                $partner->image->saveAs("uploads/partner/$file_name");
+               require 'media/image_lib/WideImage.php';
+               $image = WideImage::load("uploads/partner/$file_name");               
+               $thumbs_pic = $image->resize(120, 60, 'outside')->crop('center', 'center', 120, 60);
+               $thumbs_pic->saveToFile("uploads/partner/thumbs/$file_name");
                $partner->image = $file_name;
-               $partner->update();
+               $partner->save();
                Yii::app()->user->setFlash('msg','Image added successfully.');
                $this->redirect(Yii::app()->request->baseUrl . '/admin/ListPartner');
             }else {
@@ -921,9 +1021,21 @@ public function actionAddPartner() {
 
    public function actionListPartner(){
       if ($this->checkLogin()) {
-         $partner = Partner::model()->findAll();
-         $data['partner']=$partner;
-         $this->render('listPartner',$data);
+         $criteria = new CDbCriteria();
+            $criteria->order = 'id DESC';
+            $count=Partner::model()->count($criteria);
+            $pages=new CPagination($count);
+            $pages->pageSize=4;     // results per page
+            $pages->applyLimit($criteria);
+            $models = Partner::model()->findAll($criteria);
+
+            $this->render('listPartner', array(
+               'partner' => $models,
+               'pages' => $pages
+            ));
+         //$partner = Partner::model()->findAll();
+         //$data['partner']=$partner;
+         //$this->render('listPartner',$data);
       }
       else{
          $this->redirect(Yii::app()->request->baseUrl . '/admin/login');
@@ -933,7 +1045,10 @@ public function actionAddPartner() {
       if ($this->checkLogin()) {
          $partner = Partner::model()->findByPk($id);
          if (isset($partner)) {
-            if ($partner->attributes['image']!='' && file_exists('uploads/partner/' . $partner->image)) unlink('uploads/partner/' . $partner->image);
+            if ($partner->attributes['image']!='' && file_exists('uploads/partner/' . $partner->image)) 
+               unlink('uploads/partner/' . $partner->image);
+            if ($partner->attributes['image']!='' && file_exists('uploads/partner/thumbs/' . $partner->image)) 
+               unlink('uploads/partner/thumbs/' . $partner->image);
                $partner->delete();
                Yii::app()->user->setFlash('msg','Image deleted successfully');
          }
@@ -956,10 +1071,16 @@ public function actionAddPartner() {
                   $file_extension = strtolower(end($tmp));
                   $file_name = Common::generate_filename() . '.' . $file_extension;
                   $uploaded_image->saveAs("uploads/partner/$file_name");
+                  require 'media/image_lib/WideImage.php';
+                  $image = WideImage::load("uploads/partner/$file_name");               
+                  $thumbs_pic = $image->resize(120, 60, 'outside')->crop('center', 'center', 120, 60);
+                  $thumbs_pic->saveToFile("uploads/partner/thumbs/$file_name");
                   $partner->image = $file_name;
                   $partner->update();
                   if ($old_image!='' && file_exists('uploads/partner/' . $old_image)) 
                      unlink('uploads/partner/' . $old_image);
+                  if ($old_image!='' && file_exists('uploads/partner/thumbs/' . $old_image)) 
+                     unlink('uploads/partner/thumbs/' . $old_image);
                   Yii::app()->user->setFlash('msg','Partner updated successfully');
                   $this->redirect(Yii::app()->request->baseUrl . '/admin/listPartner');
                }

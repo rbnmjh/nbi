@@ -30,7 +30,10 @@
                      <td><?php echo $img->album->album_name?></td>
                      <td><?php echo $img->title; ?></td>
                      <td><?php echo $img->description; ?></td> 
-                     <td><?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/gallery/'.$img->image_name, 'gallery',array("height"=>80, "width"=>80)); ?></td>  
+                     <td><a href="<?php echo Yii::app()->request->baseUrl.'/uploads/gallery/'.$img->image_name; ?>" data-lightbox="image-1">
+                        <?php echo CHtml::image(Yii::app()->baseUrl .'/uploads/gallery/admin-thumbs/'.$img->image_name, 'gallery') ?>
+                        </a>
+                     </td>  
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/editGallery/'.$img->id; ?>">Edit</a>&nbsp; &nbsp;
                         <a href="<?php echo Yii::app()->request->baseUrl.'/admin/DeleteGallery/'.$img->id; ?>">Delete</a>
@@ -38,9 +41,8 @@
                   </tr>
                   <?php } ?>
                   <tr>
-                     <td colspan="5"> <?php $this->widget('CLinkPager', array(
-    'pages' => $pages,
-)) ?></td>
+                     <td colspan="5"><?php $this->widget('CLinkPager', array(
+                        'pages' => $pages,))?></td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl ?>/admin/AddGallery">
                            <strong>Add New</strong>

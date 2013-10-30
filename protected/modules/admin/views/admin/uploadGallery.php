@@ -3,6 +3,7 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Gallery > Add Gallery:</h2>
+         <p class="note">Fields with <span class="required">*</span> are required.</p>
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){
@@ -38,7 +39,7 @@
                                  </tr>
  
                                   <tr>
-                                    <td><label for="#">Album<span>*</span></label></td>
+                                    <td><label for="#">Album<span class="required">*</span></label></td>
                                     <td>
                                        <?php 
                                        echo $form->dropDownList($gallery,'album_id', CHtml::listData(Album::model()->findAll(), 'id', 'album_name'), array('class'=>'required','empty'=>'select Type'));
@@ -66,7 +67,7 @@
                                     
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Image File<span>*</span></label></td>
+                                    <td><label for="#">Image File<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->fileField($gallery, 'image_name', array('size' => '10', 'class' => 'required text_area'));

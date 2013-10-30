@@ -31,6 +31,7 @@
    <div class="center_content">
       <div class="right_content">
          <h2>Slider > Add Sliders:</h2>
+         <p class="note">Fields with <span class="required">*</span> are required.</p>
          <div class="admin-setting">
             <?php 
             if(isset($success_msg)){
@@ -45,7 +46,7 @@
                 'enableClientValidation' => false,
                 'enableAjaxValidation'   => false, //turn on ajax validation on the client side
                 'clientOptions'          => array(
-                    'validateOnSubmit' => true,
+                    'validateOnSubmit' => false,
                 ),
                 'htmlOptions'      => array(
                     'onsubmit'   => 'return true;',
@@ -65,7 +66,7 @@
                                     <th colspan="2">Add Slider:</th>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Title<span>*</span></label></td>
+                                    <td><label for="#">Title<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->textField($slider, 'title', array('class' => 'required text_area', 'maxlength' => '100'));
@@ -73,7 +74,7 @@
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td><label for="#">Image name<span>*</span></label></td>
+                                    <td><label for="#">Image name<span class="required">*</span></label></td>
                                     <td>
                                        <?php
                                           echo $form->fileField($slider, 'image_name', array('class' => 'required text_area', 'maxlength' => '100'));
