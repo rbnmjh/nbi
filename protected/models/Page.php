@@ -97,7 +97,7 @@ public function behaviors(){
   return array(
     'sluggable' => array(
       'class'=>'ext.SluggableBehavior.SluggableBehavior',
-      'columns' => array('page_title'),
+      'columns' => array('page'),
       'unique' => true,
       'update' => true,
     ),

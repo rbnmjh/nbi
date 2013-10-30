@@ -1,7 +1,4 @@
 <?php $this->pageTitle = Yii::app()->name;?><?php //print_r($page) ; die();?>
-<div class="slider">
-	<?php //$this->renderPartial('//blocks/slider'); ?>
-</div><!-- end slider -->
 <div class="main_content">
 	<div class="page_wrap container_10">
 		<div class="right_content grid_3">

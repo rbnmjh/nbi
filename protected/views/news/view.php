@@ -5,8 +5,8 @@
 			<?php $this->renderPartial('//blocks/right_bar'); ?>
 		</div><!-- end right_content -->
 		<div class="left_content grid_7">
-			<h1><?php echo $page['title']; ?></h1>
-			<div> <?php echo $page['content'];?></div>
+			<h1><?php echo $news['title']; ?></h1>
+			<div> <?php echo $news['content'];?></div>
 		</div><!-- end left content -->
 	</div>
 </div><!-- end main_content -->

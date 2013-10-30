@@ -2,6 +2,7 @@
 
 class PageController extends Controller
 {
+
 	public $layout = '//layouts/admin';
 	/**
 	 * Declares class-based actions.
@@ -16,6 +17,7 @@ class PageController extends Controller
 		$this->render('index');
 	}
 
+
 	/*
 	 * add page
 	 */
@@ -28,31 +30,16 @@ class PageController extends Controller
 	/****
 		* contact us pages	
 	*/
-		public function actionPages($slug){
+		public function actionView($slug){
 			$this->layout = '//layouts/home';
 			$menu_page = Page::model()->findByAttributes(array('slug'=>$slug));			
+			
+			if(empty($menu_page)){
+			 throw new CHttpException(404,'The specified page cannot be found');
+		}
 			$data['page']=$menu_page->attributes;
 			$this->render('menu',$data);
 		}
 
-		public function actionNews($id){
-			$this->layout = '//layouts/home';
-			$new_page = News::model()->findByAttributes(array('id'=>$id,'status'=>'1'));			
-			if(empty($new_page)){
-				 throw new CHttpException(404,'The specified page cannot be found');
-			}
-			$data['page']=$new_page->attributes;
-			$this->render('news',$data);
-		}
-
-
-		public function actionBlogs($id){
-			$this->layout = '//layouts/home';
-			$new_page = Blog::model()->findByAttributes(array('id'=>$id,'status'=>'1'));			
-			if(empty($new_page)){
-				 throw new CHttpException(404,'The specified page cannot be found');
-			}
-			$data['page']=$new_page->attributes;
-			$this->render('blogs',$data);
-		}
+		
 }

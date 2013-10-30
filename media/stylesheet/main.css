@@ -83,7 +83,7 @@ a, a:link, a:visited, a:active{
 	}
 		nav#nav ul{float:right}
 			nav#nav ul li{
-				float:left;
+				/* float:left; */
 				margin-right:20px;
 			}
 			nav#nav ul li.last{margin-right:0}
@@ -110,6 +110,70 @@ a, a:link, a:visited, a:active{
 			height:80px;
 			text-indent:-9999px;
 		}
+/****************************dropdown**********/
+nav ul ul {
+	display: none;
+}
+
+	nav ul li:hover > ul {
+		display: block;
+	}
+	
+	nav ul {
+	display: inline-table;
+    list-style: none outside none;
+    position: relative;
+}
+	nav ul:after {
+		content: ""; clear: both; display: block;
+	}
+	nav ul li {
+	float: left;
+}
+	nav ul li:hover > a {
+		background: #06A0DF;
+		color:#fff;
+		
+	}
+		
+	
+	nav ul li ul li a {
+				 line-height: 50px !important;
+		/* color: #757575; text-decoration: none; */
+	}
+	nav ul ul {
+	background: #EFEFEF;
+   	border: 1px solid #DCDCDC ;
+	border-radius: 10px ;
+	-moz-border-radius: 10px ;
+	-webkit-border-radius: 10px ;
+	position: absolute; top: 100%;
+	z-index: 1000
+}
+	nav ul ul li {
+		float: none; 
+		border-bottom: 1px solid #6b727c;
+		margin-right: 0px !important;
+		padding-left: 10px;
+		padding-right: 50px;
+		position: relative;
+	}
+	nav ul ul li.last {
+		border-bottom: none;
+	}
+
+		nav ul ul li a {
+			padding: 15px 40px;
+			color: #fff;
+		}	
+			nav ul ul li a:hover {
+				background: #4b545f;
+			}
+
+
+
+
+
 /* ------- 3. SLIDER  ------- */
 .slider{
 	width:1024px;

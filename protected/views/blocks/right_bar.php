@@ -13,7 +13,7 @@
 				$new_count=count($news1);
 				foreach ($news1 as $value) {
 					$id=$value->attributes["id"];
-					$url=YII::app()->createUrl('page/news/'.$id); 
+					$url=YII::app()->createUrl('news/view/'.$id); 
 			?>
 		<a href="<?php echo $url; ?>">
 			<li class=<?php if($i==1)
