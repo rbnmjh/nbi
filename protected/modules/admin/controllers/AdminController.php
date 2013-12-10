@@ -430,12 +430,16 @@ public function actionListPages(){
       $pages=new CPagination($count);
 
          // results per page
-      $pages->pageSize=2;
+      $pages->pageSize=5;
+
+
       $pages->applyLimit($criteria);
       $models = Page::model()->findAll($criteria);
       $this->render('listPages', array(
          'page' => $models,
-         'pages' => $pages
+         'pages' => $pages,
+         'row_count'=>$pages->pageSize,
+         'current_page'=>$pages->currentPage
       )); 
 }
  else{

@@ -1,3 +1,4 @@
+<?php //Yii::import('system.web.helpers.CString'); ?>
 <div class="main_content"> 
    <?php $this->renderPartial('//blocks/admin_menu'); ?>
    <div class="center_content">
@@ -14,20 +15,24 @@
             <table class="adminlist">
                <tbody>
                   <tr>
-                     <th>#</th>
+                     <th class='CounterColumn'>#</th>
                      <th align="left"><strong>Title</strong></th>
                      <th align="left">Description</th>
 
                      <th align="left" width="100">Action</th>
                   </tr>
                   <?php 
-                     $count = 1;
+                     $count = $row_count*$current_page+1;
+                     
                      foreach($page as $item){
                   ?>
                   <tr>
-                     <td align="center"><?php echo $count++; ?></td>
+                     <td align="center"><?php echo $count;
+
+                      ?></td>
                      <td><?php echo $item->page; ?></td>
-                     <td><?php echo $item->page_title; ?></td>   
+                     <td><?php echo CString::truncate($item->content, 60);
+   ?></td>   
 
                      <td><a href="<?php echo Yii::app()->request->baseUrl.'/admin/EditPage/'.$item->id; ?>">Edit</a>
                         &nbsp; &nbsp; &nbsp;
@@ -35,10 +40,12 @@
                       
                      </td>
                   </tr>
-                  <?php } ?>
+                  <?php $count++; } ?>
                   <tr>
                      <td colspan="3"><?php $this->widget('CLinkPager', array(
-                        'pages' => $pages,))?></td>
+                        'pages' => $pages,
+                        'maxButtonCount'=>'2'
+                        ))?></td>
                      <td>
                         <a href="<?php echo Yii::app()->request->baseUrl ?>/admin/addPage">
                            <strong>Add New</strong>
